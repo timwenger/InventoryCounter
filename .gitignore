@@ -1,0 +1,12 @@
+#ignored patterns
+
+#hidden and temporary files
+.*.*
+~*.*
+
+#Visual studio hidden folder
+.vs
+
+# binary and obj folders
+bin
+obj
