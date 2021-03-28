@@ -6,6 +6,13 @@ namespace InventoryTest
 {
     public class FileParsingTests
     {
+        [SetUp]
+        public void Init()
+        {
+            SearchOptions.Instance.fNameFormatDict.Clear();
+            SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
+        }
+
         [Test]
         public void GoodFile()
         {

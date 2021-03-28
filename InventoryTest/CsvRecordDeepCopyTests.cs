@@ -25,8 +25,8 @@ namespace InventoryTest
             FolderSummary folderSummary = new FolderSummary("folder name");
             CsvRecordCollection collection = new CsvRecordCollection();
             folderSummary.AddFileInventoryRecord(65f, "originalDescription");
-            folderSummary.AddFileErrorRecord("originalError");
-            folderSummary.AddFileErrorRecord("originalError");
+            folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
+            folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
             List<CsvRecord> printout = folderSummary.Pics.GetCollectionCopy();
 
             //This unit test wants to ensure a deep copy, so that the client can
@@ -44,7 +44,7 @@ namespace InventoryTest
             {                
                 if (unaffectedRecord.IsErrorRow)
                 {
-                    Assert.AreEqual(new Error("originalError").Print(), unaffectedRecord.Description);                    
+                    Assert.AreEqual(new Error("originalError", Error.Type.value).Print(), unaffectedRecord.Description);                    
                     errorCount++;
                 }
                 else

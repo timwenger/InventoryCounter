@@ -6,6 +6,13 @@ namespace InventoryTest
 {
     class TotalWorthTests
     {
+        [SetUp]
+        public void Init()
+        {
+            SearchOptions.Instance.fNameFormatDict.Clear();
+            SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
+        }
+
         [Test]
         public void SumTwoIndividualRecordsTest()
         {
@@ -20,9 +27,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
             folderSummary.AddFileInventoryRecord(10.10f, "my Item");
-            folderSummary.AddFileErrorRecord("my incorrectly formatted item");
+            folderSummary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
             folderSummary.AddFileInventoryRecord(10.10f, "my Other Item");
-            folderSummary.AddFileErrorRecord("another badly formatted item");
+            folderSummary.AddFileErrorRecord("another badly formatted item", Error.Type.value);
             Assert.AreEqual(20.20f, folderSummary.GrandTotal, 0.01f);
         }
 
@@ -31,10 +38,10 @@ namespace InventoryTest
         {
             FolderSummary childFolder1Summary = new FolderSummary("child folder 1");
             childFolder1Summary.AddFileInventoryRecord(10.10f, "my Item");
-            childFolder1Summary.AddFileErrorRecord("my incorrectly formatted item");
+            childFolder1Summary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
             FolderSummary childFolder2Summary = new FolderSummary("child folder 2");
             childFolder2Summary.AddFileInventoryRecord(10.10f, "my Other Item");
-            childFolder2Summary.AddFileErrorRecord("another badly formatted item");
+            childFolder2Summary.AddFileErrorRecord("another badly formatted item", Error.Type.value);
 
             FolderSummary parentFolderSummary = new FolderSummary("parent folder");
             parentFolderSummary.AbsorbChildFolder(childFolder1Summary);
@@ -47,12 +54,12 @@ namespace InventoryTest
         {
             FolderSummary childFolderSummary = new FolderSummary("child folder 1");
             childFolderSummary.AddFileInventoryRecord(10.10f, "my Item");
-            childFolderSummary.AddFileErrorRecord("my incorrectly formatted item");
+            childFolderSummary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
             FolderSummary parentFolderSummary = new FolderSummary("parent folder");
             parentFolderSummary.AbsorbChildFolder(childFolderSummary);
 
             parentFolderSummary.AddFileInventoryRecord(10.10f, "my Other Item");
-            parentFolderSummary.AddFileErrorRecord("another badly formatted item");
+            parentFolderSummary.AddFileErrorRecord("another badly formatted item", Error.Type.value);
 
             CsvFileCreator csvMaker = new CsvFileCreator(Environment.CurrentDirectory, parentFolderSummary.Folders, parentFolderSummary.Pics);
             csvMaker.CreateFolderInventoryCsvFile(); 

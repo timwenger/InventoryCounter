@@ -49,9 +49,10 @@ namespace InventoryCounter
             Pics.AddInventoryRecord(value, itemName);
         }
 
-        public void AddFileErrorRecord(string error)
+
+        public void AddFileErrorRecord(string error, Error.Type type)
         {
-            Error newError = new Error(error);
+            Error newError = new Error(error, type);
             _picsErrors.Add(newError);
             Pics.AddErrorRecord(newError.Print());
         }
