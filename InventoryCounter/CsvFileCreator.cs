@@ -2,6 +2,7 @@
 using CsvHelper;
 using System.IO;
 using System.Globalization;
+using System.Dynamic;
 
 namespace InventoryCounter
 {
@@ -34,7 +35,8 @@ namespace InventoryCounter
             AppendPicsInventory(picsWorth);
             if (_folders.Count > 0 || _pics.Count > 0)
             {
-                AppendGrandTotalToPrintout(picsWorth + foldersWorth);
+                if (SearchOptions.Instance.SearchForValues)
+                    AppendGrandTotalToPrintout(picsWorth + foldersWorth);
                 return WriteToCsvFile();
             }
             return true;
@@ -46,7 +48,8 @@ namespace InventoryCounter
             {
                 AppendTitleToPrintout("Inventory in subdirectories");
                 _printout.AddRange(_folders.GetCollectionCopy());
-                AppendSubTotalToPrintout(foldersWorth);
+                if(SearchOptions.Instance.SearchForValues)
+                    AppendSubTotalToPrintout(foldersWorth);
             }
         }
 
@@ -56,7 +59,8 @@ namespace InventoryCounter
             {
                 AppendTitleToPrintout("Inventory in this directory");
                 _printout.AddRange(_pics.GetCollectionCopy());
-                AppendSubTotalToPrintout(picsWorth);
+                if (SearchOptions.Instance.SearchForValues)
+                    AppendSubTotalToPrintout(picsWorth);
             }
         }
 
@@ -77,7 +81,7 @@ namespace InventoryCounter
 
         private void AppendTotalToPrintout(float total, string msg)
         {
-            CsvRecord totalRow = new CsvRecord(total, msg);
+            CsvRecordValue totalRow = new CsvRecordValue(total, msg);
             _printout.Add(totalRow);
         }
 
@@ -97,12 +101,13 @@ namespace InventoryCounter
         /// </summary>
         private bool WriteToCsvFile()
         {
+            List<ExpandoObject> flexPrintout = CopyPrintoutToFlexList();
             try
             {
                 using (var writer = new StreamWriter(_folderPath + "\\inventory.csv"))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    csv.WriteRecords(_printout);
+                    csv.WriteRecords(flexPrintout);
                 }
             }
             catch (IOException e)
@@ -112,5 +117,29 @@ namespace InventoryCounter
             }
             return true;
         }
+
+        private List<ExpandoObject> CopyPrintoutToFlexList()
+        {
+            List<ExpandoObject> flexPrintout = new List<ExpandoObject>();
+            foreach(CsvRecord record in _printout)
+            {
+                dynamic flexRecord = new ExpandoObject();
+                flexPrintout.Add(flexRecord);
+                foreach (ChkBx chkBx in SearchOptions.Instance.fNameFormatDict.Keys)
+                {
+                    switch (chkBx)
+                    {
+                        case ChkBx.date:
+                            flexRecord.Date = record.Date;
+                            break;
+                        case ChkBx.value:
+                            flexRecord.Value = record.Worth;
+                            break;
+                    }
+                }
+                flexRecord.Description = record.Description;
+            }
+            return flexPrintout;
+        }        
     }
 }
