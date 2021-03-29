@@ -11,7 +11,7 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("my folder");
 
-            folderSummary.AddFileInventoryRecord(10.10f, "my Item");
+            folderSummary.AddFileInventoryRecord("my Item", 10.10f);
             folderSummary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
 
             List<CsvRecord> allRecords = folderSummary.Pics.GetCollectionCopy();
@@ -28,7 +28,7 @@ namespace InventoryTest
         public void IndividualErrorIsAddedToErrorCollection()
         {
             FolderSummary folderSummary = new FolderSummary("my folder");
-            folderSummary.AddFileInventoryRecord(10.10f, "my Item");
+            folderSummary.AddFileInventoryRecord("my Item", 10.10f);
             folderSummary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
 
             List<CsvRecord> myErrors = folderSummary.Pics.GetCollectionErrorsCopy();
@@ -46,7 +46,7 @@ namespace InventoryTest
             childFolder1Summary.AddFileErrorRecord("my first error", Error.Type.value);
             childFolder1Summary.AddFileErrorRecord("my second error", Error.Type.value);
             FolderSummary childFolder2Summary = new FolderSummary("child folder 2");
-            childFolder2Summary.AddFileInventoryRecord(10.10f, "my Other Item");
+            childFolder2Summary.AddFileInventoryRecord("my Other Item", 10.10f);
             childFolder2Summary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
 
             FolderSummary parentFolderSummary = new FolderSummary("parent folder");

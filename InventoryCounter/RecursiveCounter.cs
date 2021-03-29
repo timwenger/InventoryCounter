@@ -5,7 +5,10 @@ using System.IO;
 namespace InventoryCounter
 {
     public class RecursiveCounter
-    {        
+    {
+        /// <summary>
+        /// returns null if there were errors writing to CSV file
+        /// </summary> 
         public static FolderSummary CountInventoryWorthForThisFolder(string directory)
         {
             FolderSummary folderSummary = new FolderSummary(Path.GetFileName(directory));
@@ -92,13 +95,13 @@ namespace InventoryCounter
             if (parseResult)
             {
                 if (value != null && date != null)
-                    return;
-                    //folderSummary.AddFileInventoryRecord((float)value, date, description);
+                    folderSummary.AddFileInventoryRecord(description, value, date);
                 else if (value != null)
-                    folderSummary.AddFileInventoryRecord((float)value, description);
+                    folderSummary.AddFileInventoryRecord(description, value);
                 else if (date != null)
-                    return;
-                    //folderSummary.AddFileInventoryRecord(date, description);
+                    folderSummary.AddFileInventoryRecord(description, Date: date);
+                else
+                    folderSummary.AddFileInventoryRecord(description);
             }
 
                 

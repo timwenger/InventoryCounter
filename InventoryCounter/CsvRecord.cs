@@ -9,46 +9,36 @@ namespace InventoryCounter
     /// </summary>
     public class CsvRecord
     {
-        public string Worth
+        public string WorthS
         {
             get
             {
-                if (worth != null)
-                    return "$" + worth.ToString();
+                if (WorthF != null)
+                    return "$" + WorthF.ToString();
                 else
                     return string.Empty;
             }
         }
+        
+        public float? WorthF { get; private set; }
+        public string Date { get; private set; }
+        public string Description { get; private set; }
 
-        //public string Date { get; set; }
+        public bool IsErrorRow { get; set; } = false;
 
-        public string Description { get; set; }
+        
 
-        public bool IsErrorRow = false;
 
-        // ideally float? worth would be a public get, private set. It should only be set by constructor.
-        // But if it is a property, then the CSV writer prints it.
-        public float? worth;
-
-        public CsvRecord(float? appraisal, string description)
-        {
-            worth = appraisal;
+        public CsvRecord(string description, float? worth = null, string date = "")
+        {            
             Description = description;
-        }
-
-        public CsvRecord(string description)
-        {
-            Description = description;
-        }
-
-        public CsvRecord()
-        {
-            Description = string.Empty;
+            WorthF = worth;
+            Date = date;
         }
 
         public CsvRecord DeepCopy()
         {
-            CsvRecord copy = new CsvRecord(worth, Description);
+            CsvRecord copy = new CsvRecord(Description, WorthF, Date);
             copy.IsErrorRow = IsErrorRow;
             return copy;
         }

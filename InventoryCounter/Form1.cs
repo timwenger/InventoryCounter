@@ -14,7 +14,8 @@ namespace InventoryCounter
         private enum ResultType
         {
             unsuccessful,
-            success,
+            successWithReturnedValue,
+            successWithNoReturnedValue,
             directoryDNE,
             foundNothing,
             parseError
@@ -37,19 +38,33 @@ namespace InventoryCounter
                     return;
                 }                    
                 List<string> errors = result.GetPrintableErrors();
+                if (errors.Count == 0 && result.GrandTotal == null)
+                    PrintResults(ResultType.successWithNoReturnedValue);
                 if (errors.Count == 0 && result.GrandTotal > 0)
-                    PrintResults(ResultType.success, result.GrandTotal);
+                    PrintResults(ResultType.successWithReturnedValue, result.GrandTotal);
                 else if (errors.Count == 0)
                     PrintResults(ResultType.foundNothing, 0f); 
                 else
-                    PrintResults(ResultType.parseError, result.GrandTotal, errors);
+                    PrintResults(ResultType.parseError, errors);
 
             }
             else
                 PrintResults(ResultType.directoryDNE, 0f);
         }
 
-        void PrintResults(ResultType result, float grandTotal)
+        void PrintResults(ResultType result)
+        {
+            switch (result)
+            {
+                case ResultType.successWithNoReturnedValue:
+                    ResultLabel.ForeColor = System.Drawing.Color.Green;
+                    ResultLabel.Text = "Inventory Count Successful";
+                    messagesBox.Visible = false;
+                    break;
+            }
+        }
+
+        void PrintResults(ResultType result, float? grandTotal)
         {
             switch (result)
             {
@@ -58,7 +73,7 @@ namespace InventoryCounter
                     ResultLabel.Text = "Inventory count stopped prematurely.";
                     messagesBox.Visible = false;
                     break;
-                case ResultType.success:
+                case ResultType.successWithReturnedValue:
                     ResultLabel.ForeColor = System.Drawing.Color.Green;
                     ResultLabel.Text = "Inventory Count Successful. Total value = $" + grandTotal.ToString();
                     messagesBox.Visible = false;
@@ -77,7 +92,7 @@ namespace InventoryCounter
 
         }
 
-        void PrintResults(ResultType result, float grandTotal, List<string> messages)
+        void PrintResults(ResultType result, List<string> messages)
         {
             switch (result)
             {
@@ -210,7 +225,7 @@ namespace InventoryCounter
                 searchOptionsFromFile = (SearchOptions)formatter.Deserialize(stream);
                 stream.Close();
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 //create default options if config file is not present
                 searchOptionsFromFile = SearchOptions.Instance;

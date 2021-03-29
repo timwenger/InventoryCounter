@@ -21,11 +21,16 @@ namespace InventoryCounter
             AddErrorToCollection(error);
         }
 
-        internal void AddInventoryRecord(float value, string itemName, params string[] errorMessages)
+        internal void AddInventoryRecord(string itemName, string[] errorMessages, float? value = null, string date = "")
         {
-            _records.Add(new CsvRecord(value, itemName));
+            _records.Add(new CsvRecord(itemName, value, date));
             foreach (string error in errorMessages)
                 AddErrorToCollection(error);
+        }
+
+        internal void AddInventoryRecord(string itemName, float? value = null, string date = "")
+        {
+            _records.Add(new CsvRecord(itemName, value, date));
         }
 
         private void AddErrorToCollection(string errorMessage)
@@ -55,17 +60,22 @@ namespace InventoryCounter
             return printout;
         }
 
-        public float TotalWorth
+        public float? TotalWorth
         {
             get
             {
                 float sum = 0;
+                bool foundAValue = false;
                 foreach (var record in _records)
                 {
-                    if (record.worth != null)
-                        sum += (float)record.worth;
+                    if (record.WorthF != null)
+                    {
+                        foundAValue = true;
+                        sum += (float)record.WorthF;
+                    }  
                 }
-                return sum;
+                if (foundAValue) return sum;
+                return null;                
             }
         }
     }

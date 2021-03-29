@@ -14,7 +14,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void GoodFile()
+        public void RegsFile_ExpcetSuccess()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
             
@@ -25,7 +25,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void ValueIncludingCents()
+        public void ValueIncludingCents_ExpcetSuccess()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
@@ -36,7 +36,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void DescriptionHasValueRelatedCharacters()
+        public void DescriptionHasValueRelatedCharacters_ExpcetSuccess()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
@@ -47,92 +47,92 @@ namespace InventoryTest
         }
 
         [Test]
-        public void HasNoDescription()
+        public void HasNoDescription_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$10", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void DoesntStartwithDollarSign()
+        public void DoesntStartwithDollarSign_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("10 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void ValueHasCommaInIt()
+        public void ValueHasCommaInIt_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$10,000 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void Has1Decimal()
+        public void Has1Decimal_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$10.1 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void TooManyDecimals()
+        public void TooManyDecimals_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$10.108 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void StartsWithDecimal()
+        public void StartsWithDecimal_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$.10 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void BadSpacing()
+        public void BadSpacing_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$ 10 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void NoSpacing()
+        public void NoSpacing_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
             RecursiveCounter.ParsePicFileToRecord("$10apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
-        public void WrongOrder()
+        public void WrongOrder_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("2020,12,30 $10 apple", folderSummary);
-            Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
+            RecursiveCounter.ParsePicFileToRecord("2020,12,30 apple $10", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
             Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
         }
 

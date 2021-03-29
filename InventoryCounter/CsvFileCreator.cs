@@ -29,38 +29,43 @@ namespace InventoryCounter
         public bool CreateFolderInventoryCsvFile()
         {
             _printout.Clear();
-            float foldersWorth = _folders.TotalWorth;
-            float picsWorth = _pics.TotalWorth;
+            float? foldersWorth = _folders.TotalWorth;
+            float? picsWorth = _pics.TotalWorth;
+            float? grandTotal = null;
+            if (foldersWorth != null && foldersWorth != null) grandTotal = foldersWorth + picsWorth;
+            else if (foldersWorth != null) grandTotal = foldersWorth;
+            else if (picsWorth != null) grandTotal = picsWorth;
+
             AppendFoldersInventory(foldersWorth);
             AppendPicsInventory(picsWorth);
             if (_folders.Count > 0 || _pics.Count > 0)
             {
-                if (SearchOptions.Instance.SearchForValues)
-                    AppendGrandTotalToPrintout(picsWorth + foldersWorth);
+                if (grandTotal != null)
+                    AppendGrandTotalToPrintout((float)grandTotal);
                 return WriteToCsvFile();
             }
             return true;
         }
 
-        private void AppendFoldersInventory(float foldersWorth)
+        private void AppendFoldersInventory(float? foldersWorth)
         {
             if (_folders.Count > 0)
             {
                 AppendTitleToPrintout("Inventory in subdirectories");
                 _printout.AddRange(_folders.GetCollectionCopy());
-                if(SearchOptions.Instance.SearchForValues)
-                    AppendSubTotalToPrintout(foldersWorth);
+                if(foldersWorth != null)
+                    AppendSubTotalToPrintout((float)foldersWorth);
             }
         }
 
-        private void AppendPicsInventory(float picsWorth)
+        private void AppendPicsInventory(float? picsWorth)
         {
             if (_pics.Count > 0)
             {
                 AppendTitleToPrintout("Inventory in this directory");
                 _printout.AddRange(_pics.GetCollectionCopy());
-                if (SearchOptions.Instance.SearchForValues)
-                    AppendSubTotalToPrintout(picsWorth);
+                if (picsWorth != null)
+                    AppendSubTotalToPrintout((float)picsWorth);
             }
         }
 
@@ -75,13 +80,13 @@ namespace InventoryCounter
 
         private void AppendBlankRowToPrintout()
         {
-            CsvRecord blankRow = new CsvRecord();
+            CsvRecord blankRow = new CsvRecord(string.Empty);
             _printout.Add(blankRow);
         }
 
         private void AppendTotalToPrintout(float total, string msg)
         {
-            CsvRecordValue totalRow = new CsvRecordValue(total, msg);
+            CsvRecord totalRow = new CsvRecord(msg, total);
             _printout.Add(totalRow);
         }
 
@@ -101,7 +106,7 @@ namespace InventoryCounter
         /// </summary>
         private bool WriteToCsvFile()
         {
-            List<ExpandoObject> flexPrintout = CopyPrintoutToFlexList();
+            List<dynamic> flexPrintout = CopyPrintoutToFlexList();
             try
             {
                 using (var writer = new StreamWriter(_folderPath + "\\inventory.csv"))
@@ -118,25 +123,17 @@ namespace InventoryCounter
             return true;
         }
 
-        private List<ExpandoObject> CopyPrintoutToFlexList()
+        private List<dynamic> CopyPrintoutToFlexList()
         {
-            List<ExpandoObject> flexPrintout = new List<ExpandoObject>();
+            List<dynamic> flexPrintout = new List<dynamic>();
             foreach(CsvRecord record in _printout)
             {
                 dynamic flexRecord = new ExpandoObject();
                 flexPrintout.Add(flexRecord);
-                foreach (ChkBx chkBx in SearchOptions.Instance.fNameFormatDict.Keys)
-                {
-                    switch (chkBx)
-                    {
-                        case ChkBx.date:
-                            flexRecord.Date = record.Date;
-                            break;
-                        case ChkBx.value:
-                            flexRecord.Value = record.Worth;
-                            break;
-                    }
-                }
+                if(SearchOptions.Instance.SearchForValues)
+                    flexRecord.Worth = record.WorthS;
+                if (SearchOptions.Instance.SearchForDates)
+                    flexRecord.Date = record.Date;
                 flexRecord.Description = record.Description;
             }
             return flexPrintout;

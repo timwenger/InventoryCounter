@@ -7,9 +7,25 @@ namespace InventoryCounter
 {
     public class FolderSummary
     {
-        public float GrandTotal
+        public float? GrandTotal
         {
-            get { return Folders.TotalWorth + Pics.TotalWorth;}
+            get 
+            {
+                bool foundAValue = false;
+                float temp = 0f;
+                if (Folders.TotalWorth != null)
+                {
+                    temp += (float)Folders.TotalWorth;
+                    foundAValue = true;
+                }
+                if (Pics.TotalWorth != null)
+                {
+                    temp += (float)Pics.TotalWorth;
+                    foundAValue = true;
+                }
+                if (foundAValue) return temp;
+                return null;
+            }
         }
 
         private string _folderName;
@@ -31,22 +47,22 @@ namespace InventoryCounter
                 error.AddHierarchyToFolderPath(childFolder._folderName);
             }
             _foldersErrors.AddRange(childFolderErrors);
-            AddFolderRecord(childFolder.GrandTotal, childFolder._folderName, childFolderErrors);
+            AddFolderRecord(childFolder._folderName, childFolderErrors, childFolder.GrandTotal);
         }
 
-        private void AddFolderRecord(float value, string folderName, List<Error> errors)
+        private void AddFolderRecord(string folderName, List<Error> errors, float? value)
         {
             string[] errorMessages = new string[errors.Count];
             for(int i = 0; i< errors.Count; i++)
             {
                 errorMessages[i] = errors[i].Print();
             }
-            Folders.AddInventoryRecord(value, folderName, errorMessages);
+            Folders.AddInventoryRecord(folderName, errorMessages, value);
         }
 
-        public void AddFileInventoryRecord(float value, string itemName)
+        public void AddFileInventoryRecord(string ItemName, float? Value = null, string Date = "")
         {
-            Pics.AddInventoryRecord(value, itemName);
+            Pics.AddInventoryRecord(ItemName, Value, Date);
         }
 
 

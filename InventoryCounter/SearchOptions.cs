@@ -23,6 +23,22 @@ namespace InventoryCounter
         public string Directory { get; set; }
         public string FileExtension { get; set; }
 
+        public bool SearchForValues
+        {
+            get
+            {
+                return fNameFormatDict.Contains(ChkBx.value);
+            }
+        }
+
+        public bool SearchForDates
+        {
+            get
+            {
+                return fNameFormatDict.Contains(ChkBx.date);
+            }
+        }
+
         public OrderedDictionary fNameFormatDict = new OrderedDictionary();
 
         public string FNameFormat
