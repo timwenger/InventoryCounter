@@ -7,25 +7,9 @@ namespace InventoryCounter
 {
     public class FolderSummary
     {
-        public float? GrandTotal
+        public float GrandTotal
         {
-            get 
-            {
-                bool foundAValue = false;
-                float temp = 0f;
-                if (Folders.TotalWorth != null)
-                {
-                    temp += (float)Folders.TotalWorth;
-                    foundAValue = true;
-                }
-                if (Pics.TotalWorth != null)
-                {
-                    temp += (float)Pics.TotalWorth;
-                    foundAValue = true;
-                }
-                if (foundAValue) return temp;
-                return null;
-            }
+            get { return Folders.TotalWorth + Pics.TotalWorth; }
         }
 
         private string _folderName;
@@ -34,6 +18,9 @@ namespace InventoryCounter
 
         private List<Error> _foldersErrors = new List<Error>();
         private List<Error> _picsErrors = new List<Error>();
+
+        private bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
+
         public FolderSummary(string folderName) 
         {
             _folderName = folderName;
@@ -47,10 +34,13 @@ namespace InventoryCounter
                 error.AddHierarchyToFolderPath(childFolder._folderName);
             }
             _foldersErrors.AddRange(childFolderErrors);
+            if(PrintValues)
             AddFolderRecord(childFolder._folderName, childFolderErrors, childFolder.GrandTotal);
+            else
+                AddFolderRecord(childFolder._folderName, childFolderErrors);
         }
 
-        private void AddFolderRecord(string folderName, List<Error> errors, float? value)
+        private void AddFolderRecord(string folderName, List<Error> errors, float? value = null)
         {
             string[] errorMessages = new string[errors.Count];
             for(int i = 0; i< errors.Count; i++)
@@ -72,12 +62,6 @@ namespace InventoryCounter
             _picsErrors.Add(newError);
             Pics.AddErrorRecord(newError.Print());
         }
-
-
-        // My problem here, is that an Error doesn't even exist for the picture file. Just the CsvRecord marked as an error.
-        // When you record a new CsvRecord that is an error, THAT'S the only time when you should be making the new error.
-        // NOT inside a GetAllErrors() method (that you should be able to call multiple times)
-        // and Not when you're about to absorb the error into its parent
 
         private List<Error> GetAllErrors()
         {

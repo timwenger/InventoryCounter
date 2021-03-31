@@ -60,22 +60,17 @@ namespace InventoryCounter
             return printout;
         }
 
-        public float? TotalWorth
+        public float TotalWorth
         {
             get
             {
                 float sum = 0;
-                bool foundAValue = false;
                 foreach (var record in _records)
                 {
                     if (record.WorthF != null)
-                    {
-                        foundAValue = true;
                         sum += (float)record.WorthF;
-                    }  
                 }
-                if (foundAValue) return sum;
-                return null;                
+                return sum;                
             }
         }
     }

@@ -29,42 +29,38 @@ namespace InventoryCounter
         public bool CreateFolderInventoryCsvFile()
         {
             _printout.Clear();
-            float? foldersWorth = _folders.TotalWorth;
-            float? picsWorth = _pics.TotalWorth;
-            float? grandTotal = null;
-            if (foldersWorth != null && foldersWorth != null) grandTotal = foldersWorth + picsWorth;
-            else if (foldersWorth != null) grandTotal = foldersWorth;
-            else if (picsWorth != null) grandTotal = picsWorth;
-
-            AppendFoldersInventory(foldersWorth);
-            AppendPicsInventory(picsWorth);
+            float foldersWorth = _folders.TotalWorth;
+            float picsWorth = _pics.TotalWorth;
+            
+            AppendAnyFoldersInventory(foldersWorth);
+            AppendAnyPicsInventory(picsWorth);
             if (_folders.Count > 0 || _pics.Count > 0)
             {
-                if (grandTotal != null)
-                    AppendGrandTotalToPrintout((float)grandTotal);
+                if (PrintValues)
+                    AppendGrandTotalToPrintout(foldersWorth + picsWorth);
                 return WriteToCsvFile();
             }
             return true;
         }
 
-        private void AppendFoldersInventory(float? foldersWorth)
+        private void AppendAnyFoldersInventory(float? foldersWorth)
         {
             if (_folders.Count > 0)
             {
                 AppendTitleToPrintout("Inventory in subdirectories");
                 _printout.AddRange(_folders.GetCollectionCopy());
-                if(foldersWorth != null)
+                if (PrintValues)
                     AppendSubTotalToPrintout((float)foldersWorth);
             }
         }
 
-        private void AppendPicsInventory(float? picsWorth)
+        private void AppendAnyPicsInventory(float? picsWorth)
         {
             if (_pics.Count > 0)
             {
                 AppendTitleToPrintout("Inventory in this directory");
                 _printout.AddRange(_pics.GetCollectionCopy());
-                if (picsWorth != null)
+                if (PrintValues)
                     AppendSubTotalToPrintout((float)picsWorth);
             }
         }
@@ -126,17 +122,20 @@ namespace InventoryCounter
         private List<dynamic> CopyPrintoutToFlexList()
         {
             List<dynamic> flexPrintout = new List<dynamic>();
-            foreach(CsvRecord record in _printout)
+            foreach (CsvRecord record in _printout)
             {
                 dynamic flexRecord = new ExpandoObject();
                 flexPrintout.Add(flexRecord);
-                if(SearchOptions.Instance.SearchForValues)
+                if (PrintValues)
                     flexRecord.Worth = record.WorthS;
-                if (SearchOptions.Instance.SearchForDates)
+                if (PrintDates)
                     flexRecord.Date = record.Date;
                 flexRecord.Description = record.Description;
             }
             return flexPrintout;
-        }        
+        }
+
+        private bool PrintDates { get { return SearchOptions.Instance.SearchForDates; } }
+        private bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
     }
 }

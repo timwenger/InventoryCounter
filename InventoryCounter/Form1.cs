@@ -38,9 +38,9 @@ namespace InventoryCounter
                     return;
                 }                    
                 List<string> errors = result.GetPrintableErrors();
-                if (errors.Count == 0 && result.GrandTotal == null)
+                if (errors.Count == 0 && !SearchOptions.Instance.SearchForValues)
                     PrintResults(ResultType.successWithNoReturnedValue);
-                if (errors.Count == 0 && result.GrandTotal > 0)
+                else if (errors.Count == 0 && result.GrandTotal > 0)
                     PrintResults(ResultType.successWithReturnedValue, result.GrandTotal);
                 else if (errors.Count == 0)
                     PrintResults(ResultType.foundNothing, 0f); 
@@ -201,8 +201,9 @@ namespace InventoryCounter
                 radioButton_png.Checked = true;
             else if (searchOptionsFromFile.FileExtension == Extension.pdf)
                 radioButton_pdf.Checked = true;
+            UpdateFileExtensionSearchOption();
 
-            foreach(ChkBx chkBx in searchOptionsFromFile.fNameFormatDict.Keys)
+            foreach (ChkBx chkBx in searchOptionsFromFile.fNameFormatDict.Keys)
             {
                 switch(chkBx)
                 {
