@@ -11,98 +11,25 @@ namespace InventoryCounter
     {
         private SearchOptions _searchOptions;
         private string defaultDirectoryText = "(uses this program's parent folder as default)";
-        private enum ResultType
-        {
-            unsuccessful,
-            successWithReturnedValue,
-            successWithNoReturnedValue,
-            directoryDNE,
-            foundNothing,
-            parseError
-        }
+
+        private FormResultsObjects resultsObjs;
+
+
+        public Label ResultLabel { get { return resultLabel; } }
+        public TextBox MessagesBox {get { return messagesBox; } }
+
         public Form1()
         {
             InitializeComponent();
+            resultsObjs.ResultLabel = resultLabel;
+            resultsObjs.MessagesBox = messagesBox;
         }
 
         private void generateButton_Click(object sender, EventArgs e)
         {
             string topDirectory = GetUserEnteredDirectory();
 
-            if (Directory.Exists(topDirectory))
-            {
-                FolderSummary result = RecursiveCounter.CountInventoryWorthForThisFolder(topDirectory);
-                if(result == null)
-                {
-                    PrintResults(ResultType.unsuccessful, 0f);
-                    return;
-                }                    
-                List<string> errors = result.GetPrintableErrors();
-                if (errors.Count == 0 && !SearchOptions.Instance.SearchForValues)
-                    PrintResults(ResultType.successWithNoReturnedValue);
-                else if (errors.Count == 0 && result.GrandTotal > 0)
-                    PrintResults(ResultType.successWithReturnedValue, result.GrandTotal);
-                else if (errors.Count == 0)
-                    PrintResults(ResultType.foundNothing, 0f); 
-                else
-                    PrintResults(ResultType.parseError, errors);
-
-            }
-            else
-                PrintResults(ResultType.directoryDNE, 0f);
-        }
-
-        void PrintResults(ResultType result)
-        {
-            switch (result)
-            {
-                case ResultType.successWithNoReturnedValue:
-                    ResultLabel.ForeColor = System.Drawing.Color.Green;
-                    ResultLabel.Text = "Inventory Count Successful";
-                    messagesBox.Visible = false;
-                    break;
-            }
-        }
-
-        void PrintResults(ResultType result, float? grandTotal)
-        {
-            switch (result)
-            {
-                case ResultType.unsuccessful:
-                    ResultLabel.ForeColor = System.Drawing.Color.Red;
-                    ResultLabel.Text = "Inventory count stopped prematurely.";
-                    messagesBox.Visible = false;
-                    break;
-                case ResultType.successWithReturnedValue:
-                    ResultLabel.ForeColor = System.Drawing.Color.Green;
-                    ResultLabel.Text = "Inventory Count Successful. Total value = $" + grandTotal.ToString();
-                    messagesBox.Visible = false;
-                    break;
-                case ResultType.directoryDNE:
-                    ResultLabel.ForeColor = System.Drawing.Color.Red;
-                    ResultLabel.Text = "Directory does not exist.";
-                    messagesBox.Visible = false;
-                    break;
-                case ResultType.foundNothing:
-                    ResultLabel.ForeColor = System.Drawing.Color.Orange;
-                    ResultLabel.Text = "Did not find any inventory";
-                    messagesBox.Visible = false;
-                    break;
-            }
-
-        }
-
-        void PrintResults(ResultType result, List<string> messages)
-        {
-            switch (result)
-            {
-                case ResultType.parseError:
-                    ResultLabel.ForeColor = System.Drawing.Color.Orange;
-                    ResultLabel.Text = "Could not read the names of 1 or more files:";
-                    messagesBox.Visible = true;
-                    PrintMessages(messages);
-                    break;
-            }
+            ResultPrinter.PrintResults(topDirectory, resultsObjs);
         }
 
         string GetUserEnteredDirectory()
@@ -118,17 +45,6 @@ namespace InventoryCounter
             }
             return userGivenDirectory;
         }
-
-        void PrintMessages(List<string> messages)
-        {
-            for(int i = 0; i< messages.Count; i ++)
-            {
-                messagesBox.AppendText(messages[i]);
-                if(i != messages.Count -1)
-                    messagesBox.AppendText(Environment.NewLine);
-            }            
-        }
-
 
         private void checkBox_date_CheckedChanged(object sender, EventArgs e)
         {
@@ -187,7 +103,7 @@ namespace InventoryCounter
             InitializeSearchOptions(searchOptionsFromFile);
             if(directoryEntry.Text == string.Empty)
                 directoryEntry.Text = defaultDirectoryText;
-            ResultLabel.Text = string.Empty;
+            resultLabel.Text = string.Empty;
             messagesBox.Visible = false;            
         }
 

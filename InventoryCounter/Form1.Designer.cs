@@ -31,7 +31,7 @@
             this.directoryEntry = new System.Windows.Forms.TextBox();
             this.directoryLabel = new System.Windows.Forms.Label();
             this.generateButton = new System.Windows.Forms.Button();
-            this.ResultLabel = new System.Windows.Forms.Label();
+            this.resultLabel = new System.Windows.Forms.Label();
             this.messagesBox = new System.Windows.Forms.TextBox();
             this.radioButton_jpg = new System.Windows.Forms.RadioButton();
             this.radioButton_png = new System.Windows.Forms.RadioButton();
@@ -75,12 +75,12 @@
             // 
             // ResultLabel
             // 
-            this.ResultLabel.AutoSize = true;
-            this.ResultLabel.Location = new System.Drawing.Point(240, 144);
-            this.ResultLabel.Name = "ResultLabel";
-            this.ResultLabel.Size = new System.Drawing.Size(67, 15);
-            this.ResultLabel.TabIndex = 3;
-            this.ResultLabel.Text = "ResultLabel";
+            this.resultLabel.AutoSize = true;
+            this.resultLabel.Location = new System.Drawing.Point(240, 144);
+            this.resultLabel.Name = "ResultLabel";
+            this.resultLabel.Size = new System.Drawing.Size(67, 15);
+            this.resultLabel.TabIndex = 3;
+            this.resultLabel.Text = "ResultLabel";
             // 
             // messagesBox
             // 
@@ -204,7 +204,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_filetypes);
             this.Controls.Add(this.messagesBox);
-            this.Controls.Add(this.ResultLabel);
+            this.Controls.Add(this.resultLabel);
             this.Controls.Add(this.generateButton);
             this.Controls.Add(this.directoryLabel);
             this.Controls.Add(this.directoryEntry);
@@ -226,7 +226,7 @@
         private System.Windows.Forms.TextBox directoryEntry;
         private System.Windows.Forms.Label directoryLabel;
         private System.Windows.Forms.Button generateButton;
-        private System.Windows.Forms.Label ResultLabel;
+        private System.Windows.Forms.Label resultLabel;
         private System.Windows.Forms.TextBox messagesBox;
         private System.Windows.Forms.RadioButton radioButton_jpg;
         private System.Windows.Forms.RadioButton radioButton_png;
