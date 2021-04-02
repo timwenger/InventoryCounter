@@ -10,6 +10,12 @@ namespace InventoryCounter
         value
     }
 
+    public struct ChkBxText
+    {
+        public static string date = "yyyy,mm,dd";
+        public static string value = "$99.99";
+    }
+
     public struct Extension
     {
         public static string jpg = "*.jpg";
@@ -19,7 +25,8 @@ namespace InventoryCounter
 
     [Serializable]
     public class SearchOptions
-    {        
+    {
+        public static string defaultDirectoryText = "(uses this program's parent folder as default)";
         public string Directory { get; set; }
         public string FileExtension { get; set; }
 

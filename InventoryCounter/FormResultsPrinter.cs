@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace InventoryCounter
 {
-    public struct FormResultsObjects
+    public struct GuiResultsObjects
     {
         public Label ResultLabel { get; set; }
         public TextBox MessagesBox { get; set; }
@@ -23,7 +23,7 @@ namespace InventoryCounter
             parseError
         }
 
-        internal static void PrintResults(string topDirectory, FormResultsObjects resultsObjs)
+        internal static void PrintResults(string topDirectory, GuiResultsObjects resultsObjs)
         {
             if (Directory.Exists(topDirectory))
             {
@@ -48,7 +48,7 @@ namespace InventoryCounter
         }
 
 
-        private static void Print(Type result, float grandTotal, FormResultsObjects resultObjs)
+        private static void Print(Type result, float grandTotal, GuiResultsObjects resultObjs)
         {
             switch (result)
             {
@@ -75,7 +75,7 @@ namespace InventoryCounter
             }
         }
 
-        private static void Print(Type result, FormResultsObjects resultObjs)
+        private static void Print(Type result, GuiResultsObjects resultObjs)
         {
             switch (result)
             {
@@ -87,7 +87,7 @@ namespace InventoryCounter
             }
         }
 
-        private static void Print(Type result, List<string> messages, FormResultsObjects resultObjs)
+        private static void Print(Type result, List<string> messages, GuiResultsObjects resultObjs)
         {
             switch (result)
             {
@@ -100,7 +100,7 @@ namespace InventoryCounter
             }
         }
 
-        private static void PrintMessages(List<string> messages, FormResultsObjects resultObjs)
+        private static void PrintMessages(List<string> messages, GuiResultsObjects resultObjs)
         {
             for (int i = 0; i < messages.Count; i++)
             {
