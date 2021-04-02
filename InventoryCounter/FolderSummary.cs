@@ -9,15 +9,15 @@ namespace InventoryCounter
     {
         public float GrandTotal
         {
-            get { return Folders.TotalWorth + Pics.TotalWorth; }
+            get { return Folders.TotalWorth + Files.TotalWorth; }
         }
 
         private string _folderName;
         public CsvRecordCollection Folders = new CsvRecordCollection();
-        public CsvRecordCollection Pics = new CsvRecordCollection();
+        public CsvRecordCollection Files = new CsvRecordCollection();
 
         private List<Error> _foldersErrors = new List<Error>();
-        private List<Error> _picsErrors = new List<Error>();
+        private List<Error> _filesErrors = new List<Error>();
 
         private bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
 
@@ -52,22 +52,22 @@ namespace InventoryCounter
 
         public void AddFileInventoryRecord(string ItemName, float? Value = null, string Date = "")
         {
-            Pics.AddInventoryRecord(ItemName, Value, Date);
+            Files.AddInventoryRecord(ItemName, Value, Date);
         }
 
 
         public void AddFileErrorRecord(string error, Error.Type type)
         {
             Error newError = new Error(error, type);
-            _picsErrors.Add(newError);
-            Pics.AddErrorRecord(newError.Print());
+            _filesErrors.Add(newError);
+            Files.AddErrorRecord(newError.Print());
         }
 
         private List<Error> GetAllErrors()
         {
             List<Error> allErrors = new List<Error>();            
             allErrors.AddRange(_foldersErrors);
-            allErrors.AddRange(_picsErrors);
+            allErrors.AddRange(_filesErrors);
             return allErrors;
         }
 

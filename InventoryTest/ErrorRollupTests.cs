@@ -14,7 +14,7 @@ namespace InventoryTest
             folderSummary.AddFileInventoryRecord("my Item", 10.10f);
             folderSummary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
 
-            List<CsvRecord> allRecords = folderSummary.Pics.GetCollectionCopy();
+            List<CsvRecord> allRecords = folderSummary.Files.GetCollectionCopy();
             bool foundMyError = false;
             foreach(CsvRecord record in allRecords)
             {
@@ -31,7 +31,7 @@ namespace InventoryTest
             folderSummary.AddFileInventoryRecord("my Item", 10.10f);
             folderSummary.AddFileErrorRecord("my incorrectly formatted item", Error.Type.value);
 
-            List<CsvRecord> myErrors = folderSummary.Pics.GetCollectionErrorsCopy();
+            List<CsvRecord> myErrors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.That(myErrors.Count == 1);
 
             CsvRecord myError = myErrors[0];

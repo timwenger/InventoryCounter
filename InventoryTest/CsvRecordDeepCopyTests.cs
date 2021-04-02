@@ -32,7 +32,7 @@ namespace InventoryTest
             folderSummary.AddFileInventoryRecord("originalDescription", 65f);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
-            List<CsvRecord> printout = folderSummary.Pics.GetCollectionCopy();
+            List<CsvRecord> printout = folderSummary.Files.GetCollectionCopy();
 
             //This unit test wants to ensure a deep copy, so that the client can
             // do whatever it likes with the printout, and it will not affect the
@@ -41,7 +41,7 @@ namespace InventoryTest
             {
                 record.IsErrorRow = true;
             }
-            List<CsvRecord> anotherPrintout = folderSummary.Pics.GetCollectionCopy();
+            List<CsvRecord> anotherPrintout = folderSummary.Files.GetCollectionCopy();
 
             int errorCount = 0;
             foreach(CsvRecord unaffectedRecord in anotherPrintout)

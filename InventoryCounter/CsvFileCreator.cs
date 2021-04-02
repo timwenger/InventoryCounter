@@ -14,13 +14,13 @@ namespace InventoryCounter
     {
         private readonly string _folderPath;
         private CsvRecordCollection _folders;
-        private CsvRecordCollection _pics;
+        private CsvRecordCollection _files;
         private List<CsvRecord> _printout = new List<CsvRecord>();
-        public CsvFileCreator(string folderPath, CsvRecordCollection folders, CsvRecordCollection pics)
+        public CsvFileCreator(string folderPath, CsvRecordCollection folders, CsvRecordCollection files)
         {
             _folderPath = folderPath;
             _folders = folders;
-            _pics = pics;
+            _files = files;
         }
 
         /// <summary>
@@ -30,38 +30,38 @@ namespace InventoryCounter
         {
             _printout.Clear();
             float foldersWorth = _folders.TotalWorth;
-            float picsWorth = _pics.TotalWorth;
+            float filesWorth = _files.TotalWorth;
             
             AppendAnyFoldersInventory(foldersWorth);
-            AppendAnyPicsInventory(picsWorth);
-            if (_folders.Count > 0 || _pics.Count > 0)
+            AppendAnyFilesInventory(filesWorth);
+            if (_folders.Count > 0 || _files.Count > 0)
             {
                 if (PrintValues)
-                    AppendGrandTotalToPrintout(foldersWorth + picsWorth);
+                    AppendGrandTotalToPrintout(foldersWorth + filesWorth);
                 return WriteToCsvFile();
             }
             return true;
         }
 
-        private void AppendAnyFoldersInventory(float? foldersWorth)
+        private void AppendAnyFoldersInventory(float foldersWorth)
         {
             if (_folders.Count > 0)
             {
                 AppendTitleToPrintout("Inventory in subdirectories");
                 _printout.AddRange(_folders.GetCollectionCopy());
                 if (PrintValues)
-                    AppendSubTotalToPrintout((float)foldersWorth);
+                    AppendSubTotalToPrintout(foldersWorth);
             }
         }
 
-        private void AppendAnyPicsInventory(float? picsWorth)
+        private void AppendAnyFilesInventory(float filesWorth)
         {
-            if (_pics.Count > 0)
+            if (_files.Count > 0)
             {
                 AppendTitleToPrintout("Inventory in this directory");
-                _printout.AddRange(_pics.GetCollectionCopy());
+                _printout.AddRange(_files.GetCollectionCopy());
                 if (PrintValues)
-                    AppendSubTotalToPrintout((float)picsWorth);
+                    AppendSubTotalToPrintout(filesWorth);
             }
         }
 

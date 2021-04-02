@@ -18,10 +18,10 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
             
-            RecursiveCounter.ParsePicFileToRecord("$10 apple", folderSummary);
-            Assert.AreEqual(10f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual("apple", folderSummary.Pics.GetCollectionCopy()[0].Description);
-            Assert.AreEqual(0, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10 apple", folderSummary);
+            Assert.AreEqual(10f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual("apple", folderSummary.Files.GetCollectionCopy()[0].Description);
+            Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -29,10 +29,10 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10.10 apple", folderSummary);
-            Assert.AreEqual(10.10f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual("apple", folderSummary.Pics.GetCollectionCopy()[0].Description);
-            Assert.AreEqual(0, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10.10 apple", folderSummary);
+            Assert.AreEqual(10.10f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual("apple", folderSummary.Files.GetCollectionCopy()[0].Description);
+            Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -40,10 +40,10 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10 apple, originally bought for $2.99/lb", folderSummary);
-            Assert.AreEqual(10f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual("apple, originally bought for $2.99/lb", folderSummary.Pics.GetCollectionCopy()[0].Description);
-            Assert.AreEqual(0, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10 apple, originally bought for $2.99/lb", folderSummary);
+            Assert.AreEqual(10f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual("apple, originally bought for $2.99/lb", folderSummary.Files.GetCollectionCopy()[0].Description);
+            Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -51,9 +51,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("10 apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("10 apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -71,9 +71,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10,000 apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10,000 apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -81,9 +81,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10.1 apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10.1 apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -91,9 +91,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10.108 apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10.108 apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -101,9 +101,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$.10 apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$.10 apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -111,9 +111,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$ 10 apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$ 10 apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -121,9 +121,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("$10apple", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("$10apple", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         [Test]
@@ -131,9 +131,9 @@ namespace InventoryTest
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
-            RecursiveCounter.ParsePicFileToRecord("2020,12,30 apple $10", folderSummary);
-            //Assert.AreEqual(0f, folderSummary.Pics.TotalWorth, 0.01f);
-            Assert.AreEqual(1, folderSummary.Pics.GetCollectionErrorsCopy().Count);
+            RecursiveCounter.ParseFileToRecord("2020,12,30 apple $10", folderSummary);
+            //Assert.AreEqual(0f, folderSummary.Files.TotalWorth, 0.01f);
+            Assert.AreEqual(1, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
 
         

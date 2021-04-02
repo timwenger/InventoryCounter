@@ -61,7 +61,7 @@ namespace InventoryTest
             parentFolderSummary.AddFileInventoryRecord("my Other Item", 10.10f);
             parentFolderSummary.AddFileErrorRecord("another badly formatted item", Error.Type.value);
 
-            CsvFileCreator csvMaker = new CsvFileCreator(Environment.CurrentDirectory, parentFolderSummary.Folders, parentFolderSummary.Pics);
+            CsvFileCreator csvMaker = new CsvFileCreator(Environment.CurrentDirectory, parentFolderSummary.Folders, parentFolderSummary.Files);
             csvMaker.CreateFolderInventoryCsvFile(); 
                         
             Assert.AreEqual(20.20f, parentFolderSummary.GrandTotal, 0.01f);            

@@ -15,9 +15,9 @@ namespace InventoryCounter
 
             if (!CountJustFoldersInThisFolder(directory, folderSummary))
                 return null;
-            CountJustPicturesInThisFolder(directory, folderSummary);
+            CountJustFilesInThisFolder(directory, folderSummary);
 
-            CsvFileCreator csvMaker = new CsvFileCreator(directory, folderSummary.Folders, folderSummary.Pics);
+            CsvFileCreator csvMaker = new CsvFileCreator(directory, folderSummary.Folders, folderSummary.Files);
             if (!csvMaker.CreateFolderInventoryCsvFile())
                 return null;
 
@@ -47,7 +47,7 @@ namespace InventoryCounter
             childDirectoryNames.AddRange(Directory.GetDirectories(parentDirectory));
         }
 
-        private static void GetPictureFileNames(string directory, List<string> fileNames)
+        private static void GetFileNames(string directory, List<string> fileNames)
         {
             string[] fullFilePaths = Directory.GetFiles(directory, SearchOptions.Instance.FileExtension);
             foreach (string fullFilePath in fullFilePaths)
@@ -56,20 +56,20 @@ namespace InventoryCounter
             }
         }
 
-        private static void CountJustPicturesInThisFolder(string directory, FolderSummary folderSummary)
+        private static void CountJustFilesInThisFolder(string directory, FolderSummary folderSummary)
         {
-            List<string> pictureFileNames = new List<string>();
-            GetPictureFileNames(directory, pictureFileNames);
-            foreach (string fileName in pictureFileNames)
+            List<string> fileNames = new List<string>();
+            GetFileNames(directory, fileNames);
+            foreach (string fileName in fileNames)
             {
-                ParsePicFileToRecord(fileName, folderSummary);
+                ParseFileToRecord(fileName, folderSummary);
             }
         }
 
         /// <summary>
         /// public for unit testing
         /// </summary>
-        public static void ParsePicFileToRecord(string fileName, FolderSummary folderSummary)
+        public static void ParseFileToRecord(string fileName, FolderSummary folderSummary)
         {
             string remainingFileName = fileName;
             float? value = null;
