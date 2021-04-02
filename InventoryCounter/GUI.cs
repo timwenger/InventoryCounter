@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace InventoryCounter
 {
-    public partial class Form1 : Form
+    public partial class GUI : Form
     {
         private SearchOptions _searchOptions;        
         private GuiResultsObjects _resultsObjects;
@@ -16,7 +16,7 @@ namespace InventoryCounter
         public Label ResultLabel { get { return resultLabel; } }
         public TextBox MessagesBox {get { return messagesBox; } }
 
-        public Form1()
+        public GUI()
         {
             InitializeComponent();
             InitializeResultsObjects();
