@@ -33,9 +33,7 @@ namespace InventoryTest
 
             List<CsvRecord> myErrors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.That(myErrors.Count == 1);
-
-            CsvRecord myError = myErrors[0];
-            Assert.AreEqual(new Error("my incorrectly formatted item", Error.Type.value).Print(), myError.Description);
+            Assert.AreEqual(new Error("my incorrectly formatted item", Error.Type.value).Print(), myErrors[0].Description);
         }
 
 

@@ -14,7 +14,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void RegsFile_ExpcetSuccess()
+        public void RegsFile_ExpectSuccess()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
             
@@ -25,7 +25,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void ValueIncludingCents_ExpcetSuccess()
+        public void ValueIncludingCents_ExpectSuccess()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 
@@ -36,7 +36,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void DescriptionHasValueRelatedCharacters_ExpcetSuccess()
+        public void DescriptionHasValueRelatedCharacters_ExpectSuccess()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
 

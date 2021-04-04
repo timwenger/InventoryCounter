@@ -7,7 +7,7 @@ namespace InventoryTest
     public class CsvRecordDeepCopyTests
     {
         //Todo: This class is doing a deep copy... but the 3 main properties of interest are private set, so 
-        // they cannot be changed (which would make it clear whether it was a true deep copy).
+        // they cannot be changed (which, by changing them, would make it clear whether it was a true deep copy).
         // Therefore, it would be ideal to test this a different way. Like have a private method record.Destroy??
         // That's a bit weird to have production methods used only for unit testing.
 
@@ -28,7 +28,6 @@ namespace InventoryTest
         public void GetCollection_DeepCopyTest()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
-            CsvRecordCollection collection = new CsvRecordCollection();
             folderSummary.AddFileInventoryRecord("originalDescription", 65f);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
