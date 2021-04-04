@@ -4,7 +4,7 @@ using System;
 
 namespace InventoryTest
 {
-    class TotalWorthTests
+    class ValueSummationTests
     {
         [SetUp]
         public void Init()
