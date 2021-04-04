@@ -7,14 +7,16 @@ namespace InventoryCounter
         public enum Type
         {
             value,
-            date
+            date,
+            noDescription
         }
 
         StringBuilder _errorMessage;
         Type _type;
         private const string ErrorPrefixValue = "ERROR, could not read value: ";
         private const string ErrorPrefixDate = "ERROR, could not read date: ";
-        private const string ErrorPrefixUnknown = "Unknown ERROR: ";
+        private const string ErrorPrefixNoDescription = "ERROR, no description: ";
+        private const string ErrorPrefixUnknown = "ERROR, unknown: ";
 
         public Error(string errorMsg, Type type)
         {
@@ -35,6 +37,7 @@ namespace InventoryCounter
                     return ErrorPrefixValue + _errorMessage.ToString();
                 case Type.date:
                     return ErrorPrefixDate + _errorMessage.ToString();
+                case Type.noDescription:
                 default:
                     return ErrorPrefixUnknown + _errorMessage.ToString();
             }

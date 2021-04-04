@@ -54,7 +54,7 @@ namespace InventoryTest
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(new Error("$10", Error.Type.value).Print(), errors[0].Description);
+            Assert.AreEqual(new Error("$10", Error.Type.noDescription).Print(), errors[0].Description);
         }
 
         [Test]
