@@ -91,6 +91,11 @@ namespace InventoryCounter
                 if (!parseResult) break;
             }
             string description = remainingFileName;
+            if ( parseResult && description.Length == 0)
+            {
+                parseResult = false;
+                folderSummary.AddFileErrorRecord(fileName, Error.Type.noDescription);
+            }
 
             if (parseResult)
             {

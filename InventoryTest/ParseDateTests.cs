@@ -73,7 +73,7 @@ namespace InventoryTest
         }
 
         [Test]
-        public void MonthNotValid_ExpectError()
+        public void MonthNotValid_TooBig_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
             RecursiveCounter.ParseFileToRecord("2020,13,31 new years drinks", folderSummary);
@@ -84,7 +84,18 @@ namespace InventoryTest
         }
 
         [Test]
-        public void DayNotValid_ExpectError()
+        public void MonthNotValid_NotPaddedWith0_ExpectError()
+        {
+            FolderSummary folderSummary = new FolderSummary("folder name");
+            RecursiveCounter.ParseFileToRecord("2020,3,31 new years drinks", folderSummary);
+
+            List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual(new Error("2020,3,31 new years drinks", Error.Type.date).Print(), errors[0].Description);
+        }
+
+        [Test]
+        public void DayNotValid_TooBig_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,32 new years drinks", folderSummary);
@@ -92,6 +103,17 @@ namespace InventoryTest
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.AreEqual(1, errors.Count);
             Assert.AreEqual(new Error("2020,12,32 new years drinks", Error.Type.date).Print(), errors[0].Description);
+        }
+
+        [Test]
+        public void DayNotValid_NotPaddedWith0_ExpectError()
+        {
+            FolderSummary folderSummary = new FolderSummary("folder name");
+            RecursiveCounter.ParseFileToRecord("2020,12,2 new years drinks", folderSummary);
+
+            List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual(new Error("2020,12,2 new years drinks", Error.Type.date).Print(), errors[0].Description);
         }
 
         [Test]

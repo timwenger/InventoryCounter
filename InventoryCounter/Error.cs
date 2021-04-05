@@ -38,6 +38,7 @@ namespace InventoryCounter
                 case Type.date:
                     return ErrorPrefixDate + _errorMessage.ToString();
                 case Type.noDescription:
+                    return ErrorPrefixNoDescription + _errorMessage.ToString();
                 default:
                     return ErrorPrefixUnknown + _errorMessage.ToString();
             }

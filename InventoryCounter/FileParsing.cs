@@ -5,7 +5,7 @@ using System.Text;
 namespace InventoryCounter
 {
     class FileParsing
-    {
+    {        
         /// <summary>
         /// Parses a dollar value from a string.
         /// </summary>
@@ -94,32 +94,36 @@ namespace InventoryCounter
         /// <returns>true if it parsed successfully</returns>
         public static bool ParseDate(ref string parsableStr, out string date)
         {
-
-            int indexOfSpaceCharAfterPrice = parsableStr.IndexOf(" ");
-            bool parseResult = true;
-
-            if (indexOfSpaceCharAfterPrice > 0)
+            int strLen = parsableStr.Length;
+            if (strLen < LengthOfADateString)
             {
-                date = parsableStr[0..indexOfSpaceCharAfterPrice]; // range instead of substring()
-                parseResult = IsADate(date);
-            }
-            else
-            {
-                parseResult = false;
                 date = string.Empty;
+                return false;
             }
+            else if (strLen == LengthOfADateString)
+                date = parsableStr;                
+            else
+                date = parsableStr.Substring(0, LengthOfADateString);
+                        
+            bool parseResult = IsADate(date);
 
             if (parseResult)
             {
-                parsableStr = parsableStr.Substring(indexOfSpaceCharAfterPrice + 1);
+                if (strLen == LengthOfADateString)
+                    parsableStr = string.Empty;
+                else
+                    parsableStr = parsableStr.Substring(LengthOfADateString + 1);
             }
+            else
+                date = string.Empty;
             return parseResult;
         }
 
+        private const int LengthOfADateString = 10;
         const int CommaAsciiNumber = 44;
         private static bool IsADate(string date)
         {
-            if (date.Length != 10) return false;
+            if (date.Length != LengthOfADateString) return false;
             bool parseResult = IsAYear(date.Substring(0, 4));
             parseResult &= date[4] == CommaAsciiNumber;
             parseResult &= IsAMonth(date.Substring(5, 2));
@@ -131,6 +135,8 @@ namespace InventoryCounter
         private static bool IsAYear(string year)
         {
             if (year.Length != 4) return false;
+            foreach (int c in year) // ensure no whitespace
+                if (!IsADigit(c)) return false;
             if (!int.TryParse(year, out int yearInt)) return false;
             if (yearInt > 2100 || yearInt < 1900) return false;
             return true;
@@ -139,6 +145,8 @@ namespace InventoryCounter
         private static bool IsAMonth(string month)
         {
             if (month.Length != 2) return false;
+            foreach (int c in month) // ensure no whitespace
+                if (!IsADigit(c)) return false;
             if (!int.TryParse(month, out int monthInt)) return false;
             if (monthInt > 12 || monthInt < 0) return false;
             return true;
@@ -147,6 +155,8 @@ namespace InventoryCounter
         private static bool IsADay(string day)
         {
             if (day.Length != 2) return false;
+            foreach(int c in day) // ensure no whitespace
+                if (!IsADigit(c)) return false;
             if (!int.TryParse(day, out int dayInt)) return false;
             if (dayInt > 31 || dayInt < 0) return false;
             return true;
