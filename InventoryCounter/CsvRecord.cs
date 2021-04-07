@@ -14,7 +14,7 @@ namespace InventoryCounter
             get
             {
                 if (WorthF != null)
-                    return "$" + WorthF.ToString();
+                    return ((float)WorthF).ToString("C2");
                 else
                     return string.Empty;
             }

@@ -59,7 +59,7 @@ namespace InventoryCounter
                     break;
                 case Type.successWithReturnedValue:
                     resultObjs.ResultLabel.ForeColor = System.Drawing.Color.Green;
-                    resultObjs.ResultLabel.Text = "Inventory Count Successful. Total value = $" + grandTotal.ToString();
+                    resultObjs.ResultLabel.Text = "Inventory Count Successful. Total value = " + grandTotal.ToString("C2"); // format $99,999.99
                     resultObjs.MessagesBox.Visible = false;
                     break;
                 case Type.directoryDNE:
