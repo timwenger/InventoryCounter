@@ -75,44 +75,55 @@ namespace InventoryCounter
             float? value = null;
             string date = null;
             bool parseResult = true;
+            bool thisIsNotTheFirstTerm = false;
             foreach (ChkBx chkBx in SearchOptions.Instance.fNameFormatDict.Keys)
             {                
                 switch (chkBx)
                 {
                     case ChkBx.date:
-                        if(!(parseResult = FileParsing.ParseDate(ref remainingFileName, out date)))
+                        parseResult = RequireSpacingBeforeNextTerm();
+                        if (parseResult && (!(parseResult = FileParsing.ParseDate(ref remainingFileName, out date))))
                             folderSummary.AddFileErrorRecord(fileName, Error.Type.date);
                         break;
                     case ChkBx.value:
-                        if(!(parseResult = FileParsing.ParseValue(ref remainingFileName, out value)))
+                        parseResult = RequireSpacingBeforeNextTerm();
+                        if (parseResult && (!(parseResult = FileParsing.ParseValue(ref remainingFileName, out value))))
                             folderSummary.AddFileErrorRecord(fileName, Error.Type.value);
                         break;
                 }
                 if (!parseResult) break;
             }
-            string description = remainingFileName;
-            if ( parseResult && description.Length == 0)
-            {
-                parseResult = false;
+            if (parseResult)
+                parseResult = RequireSpacingBeforeNextTerm();
+            if (parseResult && (!(parseResult = FileParsing.ParseDescription(ref remainingFileName))))
                 folderSummary.AddFileErrorRecord(fileName, Error.Type.noDescription);
-            }
+       
 
             if (parseResult)
             {
                 if (value != null && date != null)
-                    folderSummary.AddFileInventoryRecord(description, value, date);
+                    folderSummary.AddFileInventoryRecord(remainingFileName, value, date);
                 else if (value != null)
-                    folderSummary.AddFileInventoryRecord(description, value);
+                    folderSummary.AddFileInventoryRecord(remainingFileName, value);
                 else if (date != null)
-                    folderSummary.AddFileInventoryRecord(description, Date: date);
+                    folderSummary.AddFileInventoryRecord(remainingFileName, Date: date);
                 else
-                    folderSummary.AddFileInventoryRecord(description);
+                    folderSummary.AddFileInventoryRecord(remainingFileName);
+            } 
+            
+            bool RequireSpacingBeforeNextTerm()
+            {
+                bool localParseResult = true;
+                if (thisIsNotTheFirstTerm && remainingFileName.Length > 0)
+                {
+                    if (!(localParseResult = FileParsing.FirstCharIsASpace(remainingFileName)))
+                        folderSummary.AddFileErrorRecord(fileName, Error.Type.noSpacingBetweenTerms);
+                }
+                else
+                    thisIsNotTheFirstTerm = true;
+                return localParseResult;
             }
-
-                
         }
-
-
     }
 }
 

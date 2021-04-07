@@ -8,7 +8,8 @@ namespace InventoryCounter
         {
             value,
             date,
-            noDescription
+            noDescription,
+            noSpacingBetweenTerms
         }
 
         StringBuilder _errorMessage;
@@ -16,6 +17,7 @@ namespace InventoryCounter
         private const string ErrorPrefixValue = "ERROR, could not read value: ";
         private const string ErrorPrefixDate = "ERROR, could not read date: ";
         private const string ErrorPrefixNoDescription = "ERROR, no description: ";
+        private const string ErrorPrefixNoSpacingBetweenTerms = "ERROR, no spacing between search terms: ";
         private const string ErrorPrefixUnknown = "ERROR, unknown: ";
 
         public Error(string errorMsg, Type type)
@@ -39,6 +41,8 @@ namespace InventoryCounter
                     return ErrorPrefixDate + _errorMessage.ToString();
                 case Type.noDescription:
                     return ErrorPrefixNoDescription + _errorMessage.ToString();
+                case Type.noSpacingBetweenTerms:
+                    return ErrorPrefixNoSpacingBetweenTerms + _errorMessage.ToString();
                 default:
                     return ErrorPrefixUnknown + _errorMessage.ToString();
             }

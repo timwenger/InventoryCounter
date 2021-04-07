@@ -170,5 +170,27 @@ namespace InventoryTest
             Assert.AreEqual(1, errors.Count);
             Assert.AreEqual(new Error("2020.12.31 new years drinks", Error.Type.date).Print(), errors[0].Description);
         }
+
+        [Test]
+        public void NoSpacing_ExpectError()
+        {
+            FolderSummary folderSummary = new FolderSummary("folder name");
+            RecursiveCounter.ParseFileToRecord("2020,12,31new years drinks", folderSummary);
+
+            List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual(new Error("2020,12,31new years drinks", Error.Type.noSpacingBetweenTerms).Print(), errors[0].Description);
+        }
+
+        [Test]
+        public void HasUnexpectedValue_ExpectError()
+        {
+            FolderSummary folderSummary = new FolderSummary("folder name");
+            RecursiveCounter.ParseFileToRecord("$20 2020,12,31 new years drinks", folderSummary);
+
+            List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual(new Error("$20 2020,12,31 new years drinks", Error.Type.date).Print(), errors[0].Description);
+        }
     }
 }

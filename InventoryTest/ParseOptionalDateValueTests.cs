@@ -56,16 +56,16 @@ namespace InventoryTest
         }
 
         [Test]
-        public void DescriptionIsJustASpaceNoSearchOptions_ExpectSuccess()
+        public void DescriptionIsJustSpaceCharsNoSearchOptions_ExpectError()
         {
             SearchOptions.Instance.fNameFormatDict.Clear();
 
             FolderSummary folderSummary = new FolderSummary("folder name");
-            RecursiveCounter.ParseFileToRecord(" ", folderSummary);
+            RecursiveCounter.ParseFileToRecord("   ", folderSummary);
 
-            CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
-            Assert.AreEqual(" ", record.Description);
-            Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
+            List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
+            Assert.AreEqual(1, errors.Count);
+            Assert.AreEqual(new Error("   ", Error.Type.noDescription).Print(), errors[0].Description);
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace InventoryTest
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(new Error("2020,12,31$20 new years drinks", Error.Type.value).Print(), errors[0].Description);
+            Assert.AreEqual(new Error("2020,12,31$20 new years drinks", Error.Type.noSpacingBetweenTerms).Print(), errors[0].Description);
         }
 
         [Test]

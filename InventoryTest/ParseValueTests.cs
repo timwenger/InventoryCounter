@@ -131,20 +131,18 @@ namespace InventoryTest
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(new Error("$10apple", Error.Type.value).Print(), errors[0].Description);
+            Assert.AreEqual(new Error("$10apple", Error.Type.noSpacingBetweenTerms).Print(), errors[0].Description);
         }
 
         [Test]
         public void HasUnexpectedDate_ExpectError()
         {
             FolderSummary folderSummary = new FolderSummary("folder name");
-            RecursiveCounter.ParseFileToRecord("2020,12,30 apple $10", folderSummary);
+            RecursiveCounter.ParseFileToRecord("2020,12,30 $10 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(new Error("2020,12,30 apple $10", Error.Type.value).Print(), errors[0].Description);
-        }
-
-        
+            Assert.AreEqual(new Error("2020,12,30 $10 apple", Error.Type.value).Print(), errors[0].Description);
+        }        
     }
 }

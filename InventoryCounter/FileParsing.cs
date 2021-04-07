@@ -8,6 +8,8 @@ namespace InventoryCounter
     {        
         /// <summary>
         /// Parses a dollar value from a string.
+        /// The dollar amount must have either no decimals, or exactly 2 decimals. 
+        /// The first character must be $, then the only character allowed other than numerics is a "."
         /// </summary>
         /// <param name="parsableStr">the string to being parsing. Modifies the caller's variable to 
         /// contain any leftover string which was not part of the parsed value.
@@ -16,69 +18,67 @@ namespace InventoryCounter
         /// <returns>true if it parsed successfully</returns>
         public static bool ParseValue(ref string parsableStr, out float? value)
         {
-            string worth = string.Empty;
-            int indexOfSpaceCharAfterPrice = parsableStr.IndexOf(" ");
-            bool parseResult = true;
-
-            if (indexOfSpaceCharAfterPrice > 0)
-            {
-                worth = parsableStr[0..indexOfSpaceCharAfterPrice]; // range instead of substring()
-                parseResult = IsADollarAmount(worth);
-            }
-            else
-                parseResult = false;
-
-            if (parseResult)
-            {
-                value = float.Parse(worth.Substring(1));
-                parsableStr = parsableStr.Substring(indexOfSpaceCharAfterPrice + 1);
-            }
-            else
-                value = 0f;
-            return parseResult;
-        }
-
-
-
-        const int PeriodAsciiNumber = 46;
-        const int DollarAsciiNumber = 36;
-        private static bool IsADollarAmount(string value)
-        {
-            //must have no decimals, or exactly 2 decimals.
-            //the only character other than numerics is a "."
+            string workingStr = parsableStr.TrimStart();
             bool foundPeriod = false;
+            value = 0f;
             int numDecimalDigits = 0;
-            if ((value.Length <= 1) ||
-                (value[0] != DollarAsciiNumber))
+
+            if ((workingStr.Length <= 1) ||
+                (workingStr[0] != DollarAsciiNumber))
                 return false;
 
-            for (int i = 1; i < value.Length; i++)
+            int parseLocation;
+            for (parseLocation = 1; parseLocation < workingStr.Length; parseLocation++)
             {
                 bool isDigit = false;
-                int asciiVal = value[i];
+                int asciiVal = workingStr[parseLocation];
 
                 if (asciiVal == PeriodAsciiNumber)
                 {
-                    if (i == 1) // first char after '$' cannot be a decimal.
+                    if (parseLocation == 1) // first char after '$' must be a digit.
                         return false;
+                    if (foundPeriod) // if already found a period, we have reached the end of the dollar amount
+                        break;
                     foundPeriod = true;
                 }
                 else if (IsADigit(asciiVal))
                     isDigit = true;
-                else // if not a decimal or a digit, the value is not a dollar amount
-                    return false;
+                else // if not a decimal or a digit, the char is not part of a dollar amount.
+                {
+                    if (parseLocation == 1) // first char after '$' must be a digit.
+                        return false;
+                    break; // reached the end of the dollar amount
+                }
 
                 if (foundPeriod && isDigit)
                     numDecimalDigits++;
             }
+            // at this point, we've concluded that:
+            // the string is at least 2 chars long,
+            // the first char is a $
+            // the next char is a digit
+
+            // we have either stopped reading the string at the end of the dollar amount, or the end of the string
+
             if (foundPeriod && numDecimalDigits != 2)
                 return false;
+
+            // at this point, we are confident that there is a valid dollar amount in the string, so we can parse it to a float:
+            value = float.Parse(workingStr.Substring(1, parseLocation - 1));
+            parsableStr = workingStr.Substring(parseLocation);
 
             return true;
         }
 
-        const int FirstAsciiNumber = 48;
-        const int LastAsciiNumber = 57;
+        private const int SpaceAsciiNumber = 32;
+        private const int DollarAsciiNumber = 36;
+        private const int CommaAsciiNumber = 44;
+        private const int PeriodAsciiNumber = 46; 
+        private const int FirstAsciiNumber = 48;
+        private const int LastAsciiNumber = 57;
+        
+        
+        
         private static bool IsADigit(int asciiVal)
         {
             return asciiVal >= FirstAsciiNumber && asciiVal <= LastAsciiNumber;
@@ -94,16 +94,14 @@ namespace InventoryCounter
         /// <returns>true if it parsed successfully</returns>
         public static bool ParseDate(ref string parsableStr, out string date)
         {
-            int strLen = parsableStr.Length;
+            string workingStr = parsableStr.TrimStart();
+            int strLen = workingStr.Length;
             if (strLen < LengthOfADateString)
             {
                 date = string.Empty;
                 return false;
             }
-            else if (strLen == LengthOfADateString)
-                date = parsableStr;                
-            else
-                date = parsableStr.Substring(0, LengthOfADateString);
+            date = workingStr.Substring(0, LengthOfADateString);
                         
             bool parseResult = IsADate(date);
 
@@ -112,15 +110,14 @@ namespace InventoryCounter
                 if (strLen == LengthOfADateString)
                     parsableStr = string.Empty;
                 else
-                    parsableStr = parsableStr.Substring(LengthOfADateString + 1);
+                    parsableStr = workingStr.Substring(LengthOfADateString);
             }
             else
                 date = string.Empty;
             return parseResult;
         }
 
-        private const int LengthOfADateString = 10;
-        const int CommaAsciiNumber = 44;
+        private const int LengthOfADateString = 10;        
         private static bool IsADate(string date)
         {
             if (date.Length != LengthOfADateString) return false;
@@ -160,6 +157,27 @@ namespace InventoryCounter
             if (!int.TryParse(day, out int dayInt)) return false;
             if (dayInt > 31 || dayInt < 0) return false;
             return true;
+        }
+
+        /// <summary>
+        /// Parses a description from a string
+        /// </summary>
+        /// <param name="description"> returns the original string if not parsable. 
+        /// Otherwise returns the description without any leading whitespace.</param>
+        /// <returns>Returns true if there is a description. That is, if the string is not empty 
+        /// after removing leading whitespace.</returns>
+        public static bool ParseDescription(ref string description)
+        {
+            string workingStr = description.TrimStart();
+            if (workingStr.Length == 0)
+                return false;
+            description = workingStr;
+            return true;
+        }
+
+        public static bool FirstCharIsASpace(string str)
+        {
+            return str[0] == SpaceAsciiNumber;
         }
     }
 }
