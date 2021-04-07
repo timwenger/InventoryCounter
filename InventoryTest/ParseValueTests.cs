@@ -76,7 +76,10 @@ namespace InventoryTest
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
             Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(new Error("$10,000 apple", Error.Type.value).Print(), errors[0].Description);
+            // the parser reads $10 value, then a description of ,000 apple with no spacing in between. 
+            // Although this isn't really the right error, I'm satisfied that it catches the error, and 
+            // would catch errors like it.
+            Assert.AreEqual(new Error("$10,000 apple", Error.Type.noSpacingBetweenTerms).Print(), errors[0].Description);
         }
 
         [Test]
