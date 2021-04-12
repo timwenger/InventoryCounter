@@ -12,14 +12,14 @@ namespace InventoryCounter
             get { return Folders.TotalWorth + Files.TotalWorth; }
         }
 
-        private string _folderName;
-        public CsvRecordCollection Folders = new CsvRecordCollection();
-        public CsvRecordCollection Files = new CsvRecordCollection();
+        private readonly string _folderName;
+        public CsvRecordCollection Folders = new ();
+        public CsvRecordCollection Files = new ();
 
-        private List<Error> _foldersErrors = new List<Error>();
-        private List<Error> _filesErrors = new List<Error>();
+        private readonly List<Error> _foldersErrors = new ();
+        private readonly List<Error> _filesErrors = new ();
 
-        private bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
+        private static bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
 
         public FolderSummary(string folderName) 
         {
@@ -58,14 +58,14 @@ namespace InventoryCounter
 
         public void AddFileErrorRecord(string error, Error.Type type)
         {
-            Error newError = new Error(error, type);
+            Error newError = new (error, type);
             _filesErrors.Add(newError);
             Files.AddErrorRecord(newError.Print());
         }
 
         private List<Error> GetAllErrors()
         {
-            List<Error> allErrors = new List<Error>();            
+            List<Error> allErrors = new ();            
             allErrors.AddRange(_foldersErrors);
             allErrors.AddRange(_filesErrors);
             return allErrors;
@@ -73,7 +73,7 @@ namespace InventoryCounter
 
         internal List<string> GetPrintableErrors()
         {
-            List<string> printableErrors = new List<string>();
+            List<string> printableErrors = new ();
             foreach(Error error in GetAllErrors())
             {
                 printableErrors.Add(error.Print());

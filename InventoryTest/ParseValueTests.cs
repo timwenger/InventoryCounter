@@ -16,7 +16,7 @@ namespace InventoryTest
         [Test]
         public void RegsFile_ExpectSuccess()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             
             RecursiveCounter.ParseFileToRecord("$10 apple", folderSummary);
             Assert.AreEqual(10f, folderSummary.Files.TotalWorth, 0.01f);
@@ -27,7 +27,7 @@ namespace InventoryTest
         [Test]
         public void ValueIncludingCents_ExpectSuccess()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
 
             RecursiveCounter.ParseFileToRecord("$10.10 apple", folderSummary);
             Assert.AreEqual(10.10f, folderSummary.Files.TotalWorth, 0.01f);
@@ -38,7 +38,7 @@ namespace InventoryTest
         [Test]
         public void DescriptionHasValueRelatedCharacters_ExpectSuccess()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
 
             RecursiveCounter.ParseFileToRecord("$10 apple, originally bought for $2.99/lb", folderSummary);
             Assert.AreEqual(10f, folderSummary.Files.TotalWorth, 0.01f);
@@ -49,7 +49,7 @@ namespace InventoryTest
         [Test]
         public void HasNoDescription_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$10", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -60,7 +60,7 @@ namespace InventoryTest
         [Test]
         public void DoesntStartwithDollarSign_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("10 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -71,7 +71,7 @@ namespace InventoryTest
         [Test]
         public void ValueHasCommaInIt_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$10,000 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -85,7 +85,7 @@ namespace InventoryTest
         [Test]
         public void Has1Decimal_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$10.1 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -96,7 +96,7 @@ namespace InventoryTest
         [Test]
         public void TooManyDecimals_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$10.108 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -107,7 +107,7 @@ namespace InventoryTest
         [Test]
         public void StartsWithDecimal_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$.10 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();            
@@ -118,7 +118,7 @@ namespace InventoryTest
         [Test]
         public void BadSpacing_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$ 10 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -129,7 +129,7 @@ namespace InventoryTest
         [Test]
         public void NoSpacing_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$10apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -140,7 +140,7 @@ namespace InventoryTest
         [Test]
         public void HasUnexpectedDate_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,30 $10 apple", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();

@@ -12,15 +12,15 @@ namespace InventoryCounter
 
     public struct ChkBxText
     {
-        public static string date = "yyyy,mm,dd";
-        public static string value = "$99.99";
+        public const string date = "yyyy,mm,dd";
+        public const string value = "$99.99";
     }
 
     public struct Extension
     {
-        public static string jpg = "*.jpg";
-        public static string png = "*.png";
-        public static string pdf = "*.pdf";
+        public const string jpg = "*.jpg";
+        public const string png = "*.png";
+        public const string pdf = "*.pdf";
     }
 
     [Serializable]
@@ -45,17 +45,17 @@ namespace InventoryCounter
             }
         }
 
-        public OrderedDictionary fNameFormatDict = new OrderedDictionary();
+        public OrderedDictionary fNameFormatDict = new ();
 
         public string FNameFormat
         {
             get
             {
-                StringBuilder sb = new StringBuilder(); 
+                StringBuilder sb = new (); 
                 foreach(string formatElement in fNameFormatDict.Values)
                 {
                     sb.Append(formatElement);
-                    sb.Append(" ");
+                    sb.Append(' ');
                 }
                 sb.Append("file description");
                 return sb.ToString();

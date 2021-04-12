@@ -64,8 +64,8 @@ namespace InventoryCounter
                 return false;
 
             // at this point, we are confident that there is a valid dollar amount in the string, so we can parse it to a float:
-            value = float.Parse(workingStr.Substring(1, parseLocation - 1));
-            parsableStr = workingStr.Substring(parseLocation);
+            value = float.Parse(workingStr[1..parseLocation]);
+            parsableStr = workingStr[parseLocation..];
 
             return true;
         }
@@ -110,7 +110,7 @@ namespace InventoryCounter
                 if (strLen == LengthOfADateString)
                     parsableStr = string.Empty;
                 else
-                    parsableStr = workingStr.Substring(LengthOfADateString);
+                    parsableStr = workingStr[LengthOfADateString..];
             }
             else
                 date = string.Empty;

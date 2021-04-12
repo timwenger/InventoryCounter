@@ -14,8 +14,10 @@ namespace InventoryTest
         [Test]
         public void DeepCopyaCsvRecordTest()
         {
-            CsvRecord record = new CsvRecord("originalDescription", 5f, "2019,09,29");
-            record.IsErrorRow = true;
+            CsvRecord record = new ("originalDescription", 5f, "2019,09,29")
+            {
+                IsErrorRow = true
+            };
             CsvRecord deepCopyOfRecord = record.DeepCopy();
             deepCopyOfRecord.IsErrorRow = false;
             Assert.That(record.Description == "originalDescription");
@@ -27,7 +29,7 @@ namespace InventoryTest
         [Test]
         public void GetCollection_DeepCopyTest()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             folderSummary.AddFileInventoryRecord("originalDescription", 65f);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);

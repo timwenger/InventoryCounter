@@ -13,7 +13,7 @@ namespace InventoryCounter
     public class CsvRecordCollection
     {
         // the methods in this class will be instance methods, as they will operate on a specific RecordCollection instance.
-        private List<CsvRecord> _records = new List<CsvRecord>();
+        private readonly List<CsvRecord> _records = new ();
         public int Count { get { return _records.Count; } }
 
         internal void AddErrorRecord(string error)
@@ -35,13 +35,13 @@ namespace InventoryCounter
 
         private void AddErrorToCollection(string errorMessage)
         {
-            CsvRecord errorRecord = new CsvRecord(errorMessage) { IsErrorRow = true };
+            CsvRecord errorRecord = new (errorMessage) { IsErrorRow = true };
             _records.Add(errorRecord);
         }
 
         public List<CsvRecord> GetCollectionCopy()
         {
-            List<CsvRecord> printout = new List<CsvRecord>();
+            List<CsvRecord> printout = new ();
             foreach (CsvRecord record in _records)
             {
                 printout.Add(record.DeepCopy());
@@ -51,7 +51,7 @@ namespace InventoryCounter
 
         public List<CsvRecord> GetCollectionErrorsCopy()
         {
-            List<CsvRecord> printout = new List<CsvRecord>();
+            List<CsvRecord> printout = new ();
             foreach (CsvRecord record in _records)
             {
                 if (record.IsErrorRow)

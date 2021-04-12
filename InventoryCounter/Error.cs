@@ -12,8 +12,8 @@ namespace InventoryCounter
             noSpacingBetweenTerms
         }
 
-        StringBuilder _errorMessage;
-        Type _type;
+        readonly StringBuilder _errorMessage;
+        readonly Type _type;
         private const string ErrorPrefixValue = "ERROR, could not read value: ";
         private const string ErrorPrefixDate = "ERROR, could not read date: ";
         private const string ErrorPrefixNoDescription = "ERROR, no description: ";
@@ -33,7 +33,9 @@ namespace InventoryCounter
 
         public string Print()
         {
+#pragma warning disable IDE0066 // Convert switch statement to expression
             switch (_type)
+#pragma warning restore IDE0066 // Convert switch statement to expression
             {
                 case Type.value:
                     return ErrorPrefixValue + _errorMessage.ToString();

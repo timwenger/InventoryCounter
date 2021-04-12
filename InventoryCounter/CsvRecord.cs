@@ -38,8 +38,10 @@ namespace InventoryCounter
 
         public CsvRecord DeepCopy()
         {
-            CsvRecord copy = new CsvRecord(Description, WorthF, Date);
-            copy.IsErrorRow = IsErrorRow;
+            CsvRecord copy = new (Description, WorthF, Date)
+            {
+                IsErrorRow = IsErrorRow
+            };
             return copy;
         }
     }

@@ -15,7 +15,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 $20 new years drinks", folderSummary);
 
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
@@ -32,7 +32,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty); 
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$20 2020,12,31 new years drinks", folderSummary);
 
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
@@ -47,7 +47,7 @@ namespace InventoryTest
         {
             SearchOptions.Instance.fNameFormatDict.Clear();
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 $20 new years drinks", folderSummary);
 
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
@@ -60,7 +60,7 @@ namespace InventoryTest
         {
             SearchOptions.Instance.fNameFormatDict.Clear();
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("   ", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -73,7 +73,7 @@ namespace InventoryTest
         {
             SearchOptions.Instance.fNameFormatDict.Clear();
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -88,7 +88,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty); 
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);            
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 $20", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -103,7 +103,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty); 
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);            
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,1231 $20 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -118,7 +118,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 $$20 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -133,7 +133,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31$20 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -148,7 +148,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$20 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -163,7 +163,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -178,7 +178,7 @@ namespace InventoryTest
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.date, string.Empty);
             SearchOptions.Instance.fNameFormatDict.Add(ChkBx.value, string.Empty);
 
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new("folder name");
             RecursiveCounter.ParseFileToRecord("$20 2020,12,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();

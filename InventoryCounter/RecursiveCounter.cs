@@ -11,13 +11,13 @@ namespace InventoryCounter
         /// </summary> 
         public static FolderSummary CountInventoryWorthForThisFolder(string directory)
         {
-            FolderSummary folderSummary = new FolderSummary(Path.GetFileName(directory));
+            FolderSummary folderSummary = new (Path.GetFileName(directory));
 
             if (!CountJustFoldersInThisFolder(directory, folderSummary))
                 return null;
             CountJustFilesInThisFolder(directory, folderSummary);
 
-            CsvFileCreator csvMaker = new CsvFileCreator(directory, folderSummary.Folders, folderSummary.Files);
+            CsvFileCreator csvMaker = new (directory, folderSummary.Folders, folderSummary.Files);
             if (!csvMaker.CreateFolderInventoryCsvFile())
                 return null;
 
@@ -29,7 +29,7 @@ namespace InventoryCounter
         /// </summary>  
         private static bool CountJustFoldersInThisFolder(string directory, FolderSummary folderSummary)
         {            
-            List<string> folderNames = new List<string>();
+            List<string> folderNames = new ();
             GetFolderNamesInThisFolder(directory, folderNames);
 
             foreach (string folder in folderNames)
@@ -58,7 +58,7 @@ namespace InventoryCounter
 
         private static void CountJustFilesInThisFolder(string directory, FolderSummary folderSummary)
         {
-            List<string> fileNames = new List<string>();
+            List<string> fileNames = new ();
             GetFileNames(directory, fileNames);
             foreach (string fileName in fileNames)
             {

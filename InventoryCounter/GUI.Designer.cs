@@ -54,7 +54,7 @@
             this.directoryEntry.Name = "directoryEntry";
             this.directoryEntry.Size = new System.Drawing.Size(531, 23);
             this.directoryEntry.TabIndex = 0;
-            this.directoryEntry.TextChanged += new System.EventHandler(this.directoryEntry_TextChanged);
+            this.directoryEntry.TextChanged += new System.EventHandler(this.DirectoryEntry_TextChanged);
             // 
             // directoryLabel
             // 
@@ -73,7 +73,7 @@
             this.generateButton.TabIndex = 2;
             this.generateButton.Text = "Generate";
             this.generateButton.UseVisualStyleBackColor = true;
-            this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
+            this.generateButton.Click += new System.EventHandler(this.GenerateButton_Click);
             // 
             // resultLabel
             // 
@@ -105,7 +105,7 @@
             this.radioButton_jpg.TabStop = true;
             this.radioButton_jpg.Text = "jpg files";
             this.radioButton_jpg.UseVisualStyleBackColor = true;
-            this.radioButton_jpg.CheckedChanged += new System.EventHandler(this.radioButton_jpg_CheckedChanged);
+            this.radioButton_jpg.CheckedChanged += new System.EventHandler(this.RadioButton_jpg_CheckedChanged);
             // 
             // radioButton_png
             // 
@@ -116,7 +116,7 @@
             this.radioButton_png.TabIndex = 6;
             this.radioButton_png.Text = "png files";
             this.radioButton_png.UseVisualStyleBackColor = true;
-            this.radioButton_png.CheckedChanged += new System.EventHandler(this.radioButton_png_CheckedChanged);
+            this.radioButton_png.CheckedChanged += new System.EventHandler(this.RadioButton_png_CheckedChanged);
             // 
             // radioButton_pdf
             // 
@@ -127,7 +127,7 @@
             this.radioButton_pdf.TabIndex = 7;
             this.radioButton_pdf.Text = "pdf files";
             this.radioButton_pdf.UseVisualStyleBackColor = true;
-            this.radioButton_pdf.CheckedChanged += new System.EventHandler(this.radioButton_pdf_CheckedChanged);
+            this.radioButton_pdf.CheckedChanged += new System.EventHandler(this.RadioButton_pdf_CheckedChanged);
             // 
             // groupBox_filetypes
             // 
@@ -159,7 +159,7 @@
             this.checkBox_date.TabIndex = 10;
             this.checkBox_date.Text = "yyyy,mm,dd";
             this.checkBox_date.UseVisualStyleBackColor = true;
-            this.checkBox_date.CheckedChanged += new System.EventHandler(this.checkBox_date_CheckedChanged);
+            this.checkBox_date.CheckedChanged += new System.EventHandler(this.CheckBox_date_CheckedChanged);
             // 
             // checkBox_value
             // 
@@ -170,7 +170,7 @@
             this.checkBox_value.TabIndex = 11;
             this.checkBox_value.Text = "$99.99";
             this.checkBox_value.UseVisualStyleBackColor = true;
-            this.checkBox_value.CheckedChanged += new System.EventHandler(this.checkBox_value_CheckedChanged);
+            this.checkBox_value.CheckedChanged += new System.EventHandler(this.CheckBox_value_CheckedChanged);
             // 
             // checkBox_description
             // 
@@ -206,7 +206,7 @@
             this.button_Browse.TabIndex = 14;
             this.button_Browse.Text = "Browse...";
             this.button_Browse.UseVisualStyleBackColor = true;
-            this.button_Browse.Click += new System.EventHandler(this.button_Browse_Click);
+            this.button_Browse.Click += new System.EventHandler(this.Button_Browse_Click);
             // 
             // GUI
             // 

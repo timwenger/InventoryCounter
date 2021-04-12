@@ -18,7 +18,7 @@ namespace InventoryTest
         [Test]
         public void RegsFile_ExpectSuccess()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 new years drinks", folderSummary);
             
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
@@ -30,7 +30,7 @@ namespace InventoryTest
         [Test]
         public void ValueInDescription_ExpectSuccess()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31 new years drinks - $20", folderSummary);
 
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
@@ -42,7 +42,7 @@ namespace InventoryTest
         [Test]
         public void NoDescription_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -53,7 +53,7 @@ namespace InventoryTest
         [Test]
         public void YearNotValid_DateObviouslyWrongBecauseTooFarInFuture_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2200,12,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -64,7 +64,7 @@ namespace InventoryTest
         [Test]
         public void YearNotValid_DateObviouslyWrongBecauseTooFarInPast_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("1800,12,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -75,7 +75,7 @@ namespace InventoryTest
         [Test]
         public void MonthNotValid_TooBig_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,13,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -86,7 +86,7 @@ namespace InventoryTest
         [Test]
         public void MonthNotValid_NotPaddedWith0_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,3,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -97,7 +97,7 @@ namespace InventoryTest
         [Test]
         public void DayNotValid_TooBig_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,32 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -108,7 +108,7 @@ namespace InventoryTest
         [Test]
         public void DayNotValid_NotPaddedWith0_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,2 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -119,7 +119,7 @@ namespace InventoryTest
         [Test]
         public void WrongFormat_YearDayMonth_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,31,12 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -130,7 +130,7 @@ namespace InventoryTest
         [Test]
         public void WrongFormat_DayYearMonth_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("31,2020,12 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -141,7 +141,7 @@ namespace InventoryTest
         [Test]
         public void WrongFormat_DayMonthYear_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("31,12,2020 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -152,7 +152,7 @@ namespace InventoryTest
         [Test]
         public void SeparatedBySlashes_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020/12/31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -163,7 +163,7 @@ namespace InventoryTest
         [Test]
         public void SeparatedByPeriods_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020.12.31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -174,7 +174,7 @@ namespace InventoryTest
         [Test]
         public void NoSpacing_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("2020,12,31new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();
@@ -185,7 +185,7 @@ namespace InventoryTest
         [Test]
         public void HasUnexpectedValue_ExpectError()
         {
-            FolderSummary folderSummary = new FolderSummary("folder name");
+            FolderSummary folderSummary = new ("folder name");
             RecursiveCounter.ParseFileToRecord("$20 2020,12,31 new years drinks", folderSummary);
 
             List<CsvRecord> errors = folderSummary.Files.GetCollectionErrorsCopy();

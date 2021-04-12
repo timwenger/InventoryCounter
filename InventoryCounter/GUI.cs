@@ -37,17 +37,17 @@ namespace InventoryCounter
             _configObjects.CheckBox_date = checkBox_date;
         }
 
-        private void generateButton_Click(object sender, EventArgs e)
+        private void GenerateButton_Click(object sender, EventArgs e)
         {
             ResultPrinter.PrintResults(_searchOptions.Directory, _resultsObjects);
         }
 
-        private void directoryEntry_TextChanged(object sender, EventArgs e)
+        private void DirectoryEntry_TextChanged(object sender, EventArgs e)
         {
             _searchOptions.Directory = directoryEntry.Text;
         }
 
-        private void checkBox_date_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_date_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_date.Checked && !_searchOptions.fNameFormatDict.Contains(ChkBx.date))
                 _searchOptions.fNameFormatDict.Add(ChkBx.date, ChkBxText.date);
@@ -57,7 +57,7 @@ namespace InventoryCounter
             UpdateFileNameFormatTextBox();
         }
 
-        private void checkBox_value_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_value_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_value.Checked && !_searchOptions.fNameFormatDict.Contains(ChkBx.value))
                 _searchOptions.fNameFormatDict.Add(ChkBx.value, ChkBxText.value);
@@ -72,17 +72,17 @@ namespace InventoryCounter
             textBox_fileNameFormat.Text = _searchOptions.FNameFormat;
         }
 
-        private void radioButton_jpg_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_jpg_CheckedChanged(object sender, EventArgs e)
         {
             UpdateFileExtensionSearchOption(_configObjects);
         }
 
-        private void radioButton_png_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_png_CheckedChanged(object sender, EventArgs e)
         {
             UpdateFileExtensionSearchOption(_configObjects);
         }
 
-        private void radioButton_pdf_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_pdf_CheckedChanged(object sender, EventArgs e)
         {
             UpdateFileExtensionSearchOption(_configObjects);
         }
@@ -111,14 +111,16 @@ namespace InventoryCounter
             ConfigSerialization.SaveSearchOptions();         
         }
 
-        private void button_Browse_Click(object sender, EventArgs e)
+        private void Button_Browse_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = _searchOptions.Directory;
-            dialog.IsFolderPicker = true;
+            CommonOpenFileDialog dialog = new()
+            {
+                InitialDirectory = _searchOptions.Directory,
+                IsFolderPicker = true
+            };
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                MessageBox.Show("You selected: " + dialog.FileName);
+                directoryEntry.Text = dialog.FileName;
             }
         }
     }

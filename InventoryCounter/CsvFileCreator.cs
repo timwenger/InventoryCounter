@@ -13,9 +13,9 @@ namespace InventoryCounter
     public class CsvFileCreator
     {
         private readonly string _folderPath;
-        private CsvRecordCollection _folders;
-        private CsvRecordCollection _files;
-        private List<CsvRecord> _printout = new List<CsvRecord>();
+        private readonly CsvRecordCollection _folders;
+        private readonly CsvRecordCollection _files;
+        private readonly List<CsvRecord> _printout = new();
         public CsvFileCreator(string folderPath, CsvRecordCollection folders, CsvRecordCollection files)
         {
             _folderPath = folderPath;
@@ -69,20 +69,20 @@ namespace InventoryCounter
         {
             AppendBlankRowToPrintout();
 
-            CsvRecord titleRow = new CsvRecord(titleText);
+            CsvRecord titleRow = new (titleText);
             _printout.Add(titleRow);
             AppendBlankRowToPrintout();
         }
 
         private void AppendBlankRowToPrintout()
         {
-            CsvRecord blankRow = new CsvRecord(string.Empty);
+            CsvRecord blankRow = new (string.Empty);
             _printout.Add(blankRow);
         }
 
         private void AppendTotalToPrintout(float total, string msg)
         {
-            CsvRecord totalRow = new CsvRecord(msg, total);
+            CsvRecord totalRow = new (msg, total);
             _printout.Add(totalRow);
         }
 
@@ -105,11 +105,9 @@ namespace InventoryCounter
             List<dynamic> flexPrintout = CopyPrintoutToFlexList();
             try
             {
-                using (var writer = new StreamWriter(_folderPath + "\\inventory.csv"))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteRecords(flexPrintout);
-                }
+                using var writer = new StreamWriter(_folderPath + "\\inventory.csv");
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                csv.WriteRecords(flexPrintout);
             }
             catch (IOException e)
             {
@@ -121,7 +119,7 @@ namespace InventoryCounter
 
         private List<dynamic> CopyPrintoutToFlexList()
         {
-            List<dynamic> flexPrintout = new List<dynamic>();
+            List<dynamic> flexPrintout = new();
             foreach (CsvRecord record in _printout)
             {
                 dynamic flexRecord = new ExpandoObject();
@@ -135,7 +133,7 @@ namespace InventoryCounter
             return flexPrintout;
         }
 
-        private bool PrintDates { get { return SearchOptions.Instance.SearchForDates; } }
-        private bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
+        private static bool PrintDates { get { return SearchOptions.Instance.SearchForDates; } }
+        private static bool PrintValues { get { return SearchOptions.Instance.SearchForValues; } }
     }
 }
