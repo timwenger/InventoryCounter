@@ -27,6 +27,8 @@ namespace InventoryCounter
                 (workingStr[0] != DollarAsciiNumber))
                 return false;
 
+            int negativeMultiplier = CheckForAndRemoveNegativeSign(ref workingStr);
+
             int parseLocation;
             for (parseLocation = 1; parseLocation < workingStr.Length; parseLocation++)
             {
@@ -64,21 +66,31 @@ namespace InventoryCounter
                 return false;
 
             // at this point, we are confident that there is a valid dollar amount in the string, so we can parse it to a decimal:
-            value = decimal.Parse(workingStr[1..parseLocation]);
+            value = decimal.Parse(workingStr[1..parseLocation]) * negativeMultiplier;
             parsableStr = workingStr[parseLocation..];
 
             return true;
         }
 
+        private static int CheckForAndRemoveNegativeSign(ref string workingStr)
+        {
+            int multiplier = 1;
+            if (workingStr[1] == NegativeSignAsciiNumber)
+            {
+                multiplier = -1;
+                workingStr = workingStr.Remove(1, 1);
+            }
+            return multiplier;
+        }
+            
         private const int SpaceAsciiNumber = 32;
         private const int DollarAsciiNumber = 36;
         private const int CommaAsciiNumber = 44;
+        private const int NegativeSignAsciiNumber = 45;
         private const int PeriodAsciiNumber = 46; 
         private const int FirstAsciiNumber = 48;
         private const int LastAsciiNumber = 57;
-        
-        
-        
+
         private static bool IsADigit(int asciiVal)
         {
             return asciiVal >= FirstAsciiNumber && asciiVal <= LastAsciiNumber;

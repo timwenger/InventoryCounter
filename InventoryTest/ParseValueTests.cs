@@ -47,6 +47,17 @@ namespace InventoryTest
         }
 
         [Test]
+        public void NegativeValue_ExpectSuccess()
+        {
+            FolderSummary folderSummary = new("folder name");
+
+            RecursiveCounter.ParseFileToRecord("$-10 apple", folderSummary);
+            Assert.AreEqual(-10m, folderSummary.Files.TotalWorth);
+            Assert.AreEqual("apple", folderSummary.Files.GetCollectionCopy()[0].Description);
+            Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
+        }
+
+        [Test]
         public void HasNoDescription_ExpectError()
         {
             FolderSummary folderSummary = new("folder name");
