@@ -107,7 +107,6 @@ namespace InventoryCounter
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _searchOptions.Directory = directoryEntry.Text;
             ConfigSerialization.SaveSearchOptions();         
         }
 
