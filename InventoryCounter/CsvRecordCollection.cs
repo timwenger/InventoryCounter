@@ -21,14 +21,14 @@ namespace InventoryCounter
             AddErrorToCollection(error);
         }
 
-        internal void AddInventoryRecord(string itemName, string[] errorMessages, float? value = null, string date = "")
+        internal void AddInventoryRecord(string itemName, string[] errorMessages, decimal? value = null, string date = "")
         {
             _records.Add(new CsvRecord(itemName, value, date));
             foreach (string error in errorMessages)
                 AddErrorToCollection(error);
         }
 
-        internal void AddInventoryRecord(string itemName, float? value = null, string date = "")
+        internal void AddInventoryRecord(string itemName, decimal? value = null, string date = "")
         {
             _records.Add(new CsvRecord(itemName, value, date));
         }
@@ -60,15 +60,15 @@ namespace InventoryCounter
             return printout;
         }
 
-        public float TotalWorth
+        public decimal TotalWorth
         {
             get
             {
-                float sum = 0;
+                decimal sum = 0;
                 foreach (var record in _records)
                 {
-                    if (record.WorthF != null)
-                        sum += (float)record.WorthF;
+                    if (record.WorthD != null)
+                        sum += (decimal)record.WorthD;
                 }
                 return sum;                
             }

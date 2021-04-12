@@ -30,7 +30,7 @@ namespace InventoryCounter
                 FolderSummary result = RecursiveCounter.CountInventoryWorthForThisFolder(topDirectory);
                 if (result == null)
                 {
-                    Print(Type.unsuccessful, 0f, resultsObjs);
+                    Print(Type.unsuccessful, 0, resultsObjs);
                     return;
                 }
                 List<string> errors = result.GetPrintableErrors();
@@ -39,16 +39,16 @@ namespace InventoryCounter
                 else if (errors.Count == 0 && result.GrandTotal > 0)
                     Print(Type.successWithReturnedValue, result.GrandTotal, resultsObjs);
                 else if (errors.Count == 0)
-                    Print(Type.foundNothing, 0f, resultsObjs);
+                    Print(Type.foundNothing, 0, resultsObjs);
                 else
                     Print(Type.parseError, errors, resultsObjs);
             }
             else
-                Print(Type.directoryDNE, 0f, resultsObjs);
+                Print(Type.directoryDNE, 0, resultsObjs);
         }
 
 
-        private static void Print(Type result, float grandTotal, GuiResultsObjects resultObjs)
+        private static void Print(Type result, decimal grandTotal, GuiResultsObjects resultObjs)
         {
             switch (result)
             {

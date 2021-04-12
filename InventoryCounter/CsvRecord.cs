@@ -13,14 +13,14 @@ namespace InventoryCounter
         {
             get
             {
-                if (WorthF != null)
-                    return ((float)WorthF).ToString("C2");
+                if (WorthD != null)
+                    return ((decimal)WorthD).ToString("C2");
                 else
                     return string.Empty;
             }
         }
         
-        public float? WorthF { get; private set; }
+        public decimal? WorthD { get; private set; }
         public string Date { get; private set; }
         public string Description { get; private set; }
 
@@ -29,16 +29,16 @@ namespace InventoryCounter
         
 
 
-        public CsvRecord(string description, float? worth = null, string date = "")
+        public CsvRecord(string description, decimal? worth = null, string date = "")
         {            
             Description = description;
-            WorthF = worth;
+            WorthD = worth;
             Date = date;
         }
 
         public CsvRecord DeepCopy()
         {
-            CsvRecord copy = new (Description, WorthF, Date)
+            CsvRecord copy = new (Description, WorthD, Date)
             {
                 IsErrorRow = IsErrorRow
             };

@@ -72,7 +72,7 @@ namespace InventoryCounter
         public static void ParseFileToRecord(string fileName, FolderSummary folderSummary)
         {
             string remainingFileName = fileName;
-            float? value = null;
+            decimal? value = null;
             string date = null;
             bool parseResult = true;
             bool thisIsNotTheFirstTerm = false;

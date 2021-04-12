@@ -20,7 +20,7 @@ namespace InventoryTest
 
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
             Assert.AreEqual("2020,12,31", record.Date);
-            Assert.AreEqual(20f, record.WorthF, 0.01f);
+            Assert.AreEqual(20m, record.WorthD);
             Assert.AreEqual("new years drinks", record.Description);
             Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }
@@ -37,7 +37,7 @@ namespace InventoryTest
 
             CsvRecord record = folderSummary.Files.GetCollectionCopy()[0];
             Assert.AreEqual("2020,12,31", record.Date);
-            Assert.AreEqual(20f, record.WorthF, 0.01f);
+            Assert.AreEqual(20m, record.WorthD);
             Assert.AreEqual("new years drinks", record.Description);
             Assert.AreEqual(0, folderSummary.Files.GetCollectionErrorsCopy().Count);
         }

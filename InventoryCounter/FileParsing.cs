@@ -16,11 +16,11 @@ namespace InventoryCounter
         /// returns the original string if parse is unsuccessful.</param>
         /// <param name="value"> parsed value. Zero if parse is unsuccessful.</param>
         /// <returns>true if it parsed successfully</returns>
-        public static bool ParseValue(ref string parsableStr, out float? value)
+        public static bool ParseValue(ref string parsableStr, out decimal? value)
         {
             string workingStr = parsableStr.TrimStart();
             bool foundPeriod = false;
-            value = 0f;
+            value = 0;
             int numDecimalDigits = 0;
 
             if ((workingStr.Length <= 1) ||
@@ -63,8 +63,8 @@ namespace InventoryCounter
             if (foundPeriod && numDecimalDigits != 2)
                 return false;
 
-            // at this point, we are confident that there is a valid dollar amount in the string, so we can parse it to a float:
-            value = float.Parse(workingStr[1..parseLocation]);
+            // at this point, we are confident that there is a valid dollar amount in the string, so we can parse it to a decimal:
+            value = decimal.Parse(workingStr[1..parseLocation]);
             parsableStr = workingStr[parseLocation..];
 
             return true;

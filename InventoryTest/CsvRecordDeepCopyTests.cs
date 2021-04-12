@@ -14,14 +14,14 @@ namespace InventoryTest
         [Test]
         public void DeepCopyaCsvRecordTest()
         {
-            CsvRecord record = new ("originalDescription", 5f, "2019,09,29")
+            CsvRecord record = new ("originalDescription", 5m, "2019,09,29")
             {
                 IsErrorRow = true
             };
             CsvRecord deepCopyOfRecord = record.DeepCopy();
             deepCopyOfRecord.IsErrorRow = false;
             Assert.That(record.Description == "originalDescription");
-            Assert.That(record.WorthF == 5f);
+            Assert.That(record.WorthD == 5m);
             Assert.That(record.Date == "2019,09,29");
             Assert.That(record.IsErrorRow == true);
         }
@@ -30,7 +30,7 @@ namespace InventoryTest
         public void GetCollection_DeepCopyTest()
         {
             FolderSummary folderSummary = new ("folder name");
-            folderSummary.AddFileInventoryRecord("originalDescription", 65f);
+            folderSummary.AddFileInventoryRecord("originalDescription", 65m);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
             folderSummary.AddFileErrorRecord("originalError", Error.Type.value);
             List<CsvRecord> printout = folderSummary.Files.GetCollectionCopy();
@@ -55,7 +55,7 @@ namespace InventoryTest
                 else
                 {
                     Assert.That(unaffectedRecord.Description == "originalDescription"); 
-                    Assert.That(unaffectedRecord.WorthF == 65f);
+                    Assert.That(unaffectedRecord.WorthD == 65m);
                 }                    
             }
             Assert.That(errorCount == 2);                        

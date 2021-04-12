@@ -33,9 +33,7 @@ namespace InventoryCounter
 
         public string Print()
         {
-#pragma warning disable IDE0066 // Convert switch statement to expression
             switch (_type)
-#pragma warning restore IDE0066 // Convert switch statement to expression
             {
                 case Type.value:
                     return ErrorPrefixValue + _errorMessage.ToString();

@@ -29,8 +29,8 @@ namespace InventoryCounter
         public bool CreateFolderInventoryCsvFile()
         {
             _printout.Clear();
-            float foldersWorth = _folders.TotalWorth;
-            float filesWorth = _files.TotalWorth;
+            decimal foldersWorth = _folders.TotalWorth;
+            decimal filesWorth = _files.TotalWorth;
             
             AppendAnyFoldersInventory(foldersWorth);
             AppendAnyFilesInventory(filesWorth);
@@ -43,7 +43,7 @@ namespace InventoryCounter
             return true;
         }
 
-        private void AppendAnyFoldersInventory(float foldersWorth)
+        private void AppendAnyFoldersInventory(decimal foldersWorth)
         {
             if (_folders.Count > 0)
             {
@@ -54,7 +54,7 @@ namespace InventoryCounter
             }
         }
 
-        private void AppendAnyFilesInventory(float filesWorth)
+        private void AppendAnyFilesInventory(decimal filesWorth)
         {
             if (_files.Count > 0)
             {
@@ -80,19 +80,19 @@ namespace InventoryCounter
             _printout.Add(blankRow);
         }
 
-        private void AppendTotalToPrintout(float total, string msg)
+        private void AppendTotalToPrintout(decimal total, string msg)
         {
             CsvRecord totalRow = new (msg, total);
             _printout.Add(totalRow);
         }
 
-        private void AppendSubTotalToPrintout(float total)
+        private void AppendSubTotalToPrintout(decimal total)
         {
             AppendBlankRowToPrintout();
             AppendTotalToPrintout(total, "SubTotal");
         }
 
-        private void AppendGrandTotalToPrintout(float total)
+        private void AppendGrandTotalToPrintout(decimal total)
         {
             AppendTotalToPrintout(total, "Grand Total");
         }

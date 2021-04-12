@@ -7,7 +7,7 @@ namespace InventoryCounter
 {
     public class FolderSummary
     {
-        public float GrandTotal
+        public decimal GrandTotal
         {
             get { return Folders.TotalWorth + Files.TotalWorth; }
         }
@@ -40,7 +40,7 @@ namespace InventoryCounter
                 AddFolderRecord(childFolder._folderName, childFolderErrors);
         }
 
-        private void AddFolderRecord(string folderName, List<Error> errors, float? value = null)
+        private void AddFolderRecord(string folderName, List<Error> errors, decimal? value = null)
         {
             string[] errorMessages = new string[errors.Count];
             for(int i = 0; i< errors.Count; i++)
@@ -50,7 +50,7 @@ namespace InventoryCounter
             Folders.AddInventoryRecord(folderName, errorMessages, value);
         }
 
-        public void AddFileInventoryRecord(string ItemName, float? Value = null, string Date = "")
+        public void AddFileInventoryRecord(string ItemName, decimal? Value = null, string Date = "")
         {
             Files.AddInventoryRecord(ItemName, Value, Date);
         }
