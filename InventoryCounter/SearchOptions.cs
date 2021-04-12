@@ -26,7 +26,6 @@ namespace InventoryCounter
     [Serializable]
     public class SearchOptions
     {
-        public static string defaultDirectoryText = "(uses this program's parent folder as default)";
         public string Directory { get; set; }
         public string FileExtension { get; set; }
 

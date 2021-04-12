@@ -42,6 +42,7 @@
             this.checkBox_value = new System.Windows.Forms.CheckBox();
             this.checkBox_description = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button_Browse = new System.Windows.Forms.Button();
             this.groupBox_filetypes.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -51,8 +52,9 @@
             this.directoryEntry.ForeColor = System.Drawing.Color.DimGray;
             this.directoryEntry.Location = new System.Drawing.Point(129, 111);
             this.directoryEntry.Name = "directoryEntry";
-            this.directoryEntry.Size = new System.Drawing.Size(618, 23);
+            this.directoryEntry.Size = new System.Drawing.Size(531, 23);
             this.directoryEntry.TabIndex = 0;
+            this.directoryEntry.TextChanged += new System.EventHandler(this.directoryEntry_TextChanged);
             // 
             // directoryLabel
             // 
@@ -73,11 +75,11 @@
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
             // 
-            // ResultLabel
+            // resultLabel
             // 
             this.resultLabel.AutoSize = true;
             this.resultLabel.Location = new System.Drawing.Point(240, 144);
-            this.resultLabel.Name = "ResultLabel";
+            this.resultLabel.Name = "resultLabel";
             this.resultLabel.Size = new System.Drawing.Size(67, 15);
             this.resultLabel.TabIndex = 3;
             this.resultLabel.Text = "ResultLabel";
@@ -196,11 +198,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "File Name Format";
             // 
-            // Form1
+            // button_Browse
+            // 
+            this.button_Browse.Location = new System.Drawing.Point(666, 111);
+            this.button_Browse.Name = "button_Browse";
+            this.button_Browse.Size = new System.Drawing.Size(75, 23);
+            this.button_Browse.TabIndex = 14;
+            this.button_Browse.Text = "Browse...";
+            this.button_Browse.UseVisualStyleBackColor = true;
+            this.button_Browse.Click += new System.EventHandler(this.button_Browse_Click);
+            // 
+            // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 268);
+            this.Controls.Add(this.button_Browse);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_filetypes);
             this.Controls.Add(this.messagesBox);
@@ -208,7 +221,7 @@
             this.Controls.Add(this.generateButton);
             this.Controls.Add(this.directoryLabel);
             this.Controls.Add(this.directoryEntry);
-            this.Name = "Form1";
+            this.Name = "GUI";
             this.Text = "Inventory Generator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -237,6 +250,7 @@
         private System.Windows.Forms.CheckBox checkBox_value;
         private System.Windows.Forms.CheckBox checkBox_description;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button_Browse;
     }
 }
 

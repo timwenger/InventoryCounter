@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
 using System.Windows.Forms;
 
 namespace InventoryCounter
@@ -41,23 +39,12 @@ namespace InventoryCounter
 
         private void generateButton_Click(object sender, EventArgs e)
         {
-            string topDirectory = GetUserEnteredDirectory();
-
-            ResultPrinter.PrintResults(topDirectory, _resultsObjects);
+            ResultPrinter.PrintResults(_searchOptions.Directory, _resultsObjects);
         }
 
-        string GetUserEnteredDirectory()
+        private void directoryEntry_TextChanged(object sender, EventArgs e)
         {
-            string userGivenDirectory = directoryEntry.Text;
-            if (userGivenDirectory == SearchOptions.defaultDirectoryText)
-            {
-                string cd = Environment.CurrentDirectory;
-                int indexOfLastDirectorySlash = cd.LastIndexOf(@"\");
-                string parentCd = cd.Substring(0, indexOfLastDirectorySlash);
-                directoryEntry.Text = parentCd;
-                return parentCd;
-            }
-            return userGivenDirectory;
+            _searchOptions.Directory = directoryEntry.Text;
         }
 
         private void checkBox_date_CheckedChanged(object sender, EventArgs e)
@@ -124,6 +111,15 @@ namespace InventoryCounter
             ConfigSerialization.SaveSearchOptions();         
         }
 
-        
+        private void button_Browse_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = _searchOptions.Directory;
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                MessageBox.Show("You selected: " + dialog.FileName);
+            }
+        }
     }
 }

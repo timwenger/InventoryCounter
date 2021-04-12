@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
@@ -52,18 +53,26 @@ namespace InventoryCounter
             }
             catch (FileNotFoundException)
             {
-                startupSearchOptions = LoadDefaultConfig();
+                startupSearchOptions = LoadDefaultSearchOptions();
             }
             return startupSearchOptions;
         }
 
-        private static SearchOptions LoadDefaultConfig()
+        private static SearchOptions LoadDefaultSearchOptions()
         {
             SearchOptions defaultConfig = SearchOptions.Instance;
-            defaultConfig.Directory = SearchOptions.defaultDirectoryText;
+            defaultConfig.Directory = GetProgramsParentDirectory();
             defaultConfig.FileExtension = Extension.jpg;
             defaultConfig.fNameFormatDict.Add(ChkBx.value, ChkBxText.value);
             return defaultConfig;
+        }
+
+        private static string GetProgramsParentDirectory()
+        {
+            string cd = Environment.CurrentDirectory;
+            int indexOfLastDirectorySlash = cd.LastIndexOf(@"\");
+            string parentCd = cd.Substring(0, indexOfLastDirectorySlash);
+            return parentCd;
         }
 
         private static void InitializeSearchOptions(SearchOptions searchOptionsFromFile, GuiConfigObjects configObjects)
