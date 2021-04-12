@@ -37,7 +37,9 @@ namespace InventoryCounter
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream("SearchOptions.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
             formatter.Serialize(stream, SearchOptions.Instance);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
             stream.Close();
         }
 
@@ -48,7 +50,9 @@ namespace InventoryCounter
             try
             {
                 Stream stream = new FileStream("SearchOptions.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 startupSearchOptions = (SearchOptions)formatter.Deserialize(stream);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 stream.Close();
             }
             catch (FileNotFoundException)
