@@ -34,6 +34,9 @@ namespace InventoryCounter
 
             foreach (string folder in folderNames)
             {
+                // skip configuration folders that start with "."
+                if (Path.GetFileName(folder).StartsWith('.'))
+                    continue;
                 FolderSummary individualFolder = CountInventoryWorthForThisFolder(folder); //RECURSIVE!
                 if (individualFolder == null)
                     return false;
