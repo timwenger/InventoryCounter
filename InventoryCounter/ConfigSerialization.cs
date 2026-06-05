@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace InventoryCounter
 {
@@ -35,7 +37,8 @@ namespace InventoryCounter
 
         private static void SerializeSearchOptions()
         {
-            DataContractSerializer serializer = new(type: typeof(SearchOptions));
+            DataContractSerializer serializer = new(typeof(SearchOptions),
+                [typeof(string), typeof(bool), typeof(OrderedDictionary), typeof(ChkBx)]);
             Stream stream = new FileStream("SearchOptions.xml", FileMode.Create, FileAccess.Write, FileShare.None);
             serializer.WriteObject(stream, SearchOptions.Instance);
             stream.Close();
@@ -43,17 +46,28 @@ namespace InventoryCounter
 
         private static SearchOptions DeSerializeSearchOptions()
         {
-            DataContractSerializer serializer = new(type: typeof(SearchOptions));
+            DataContractSerializer serializer = new (typeof(SearchOptions),
+                [typeof(string), typeof(bool), typeof(OrderedDictionary), typeof(ChkBx)]);
             SearchOptions startupSearchOptions = LoadDefaultSearchOptions();
+            Stream stream = new FileStream("SearchOptions.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
             try
             {
-                Stream stream = new FileStream("SearchOptions.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
-                serializer.ReadObject(stream);
+                var obj = serializer.ReadObject(stream);
+                if (obj is SearchOptions so)
+                    startupSearchOptions = so;
                 stream.Close();
             }
-            catch (FileNotFoundException)
+            catch (XmlException)
             {
                 startupSearchOptions = LoadDefaultSearchOptions();
+                stream.Close();
+
+            }
+            catch (SerializationException)
+            {
+                // If there is a serialization problem (unknown types) fall back to defaults
+                startupSearchOptions = LoadDefaultSearchOptions();
+                stream.Close();
             }
             return startupSearchOptions;
         }
@@ -63,7 +77,7 @@ namespace InventoryCounter
             SearchOptions defaultConfig = SearchOptions.Instance;
             defaultConfig.Directory = GetProgramsParentDirectory();
             defaultConfig.FileExtension = Extension.jpg;
-            defaultConfig.fNameFormatDict.Add(ChkBx.value, ChkBxText.value);
+            defaultConfig.fNameFormatDict[ChkBx.value] = ChkBxText.value;
             return defaultConfig;
         }
 
