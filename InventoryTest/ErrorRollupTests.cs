@@ -59,13 +59,13 @@ namespace InventoryTest
             }
             Error e1 = new ("my first error", Error.Type.value);
             e1.AddHierarchyToFolderPath("child folder 1");
-            CollectionAssert.Contains(allDescriptions, e1.Print());
+            Assert.That(allDescriptions.Contains(e1.Print()));
             Error e2 = new ("my second error", Error.Type.value);
             e2.AddHierarchyToFolderPath("child folder 1");
-            CollectionAssert.Contains(allDescriptions, e2.Print());
+            Assert.That(allDescriptions.Contains(e2.Print()));
             Error e3 = new ("my incorrectly formatted item", Error.Type.value);
             e3.AddHierarchyToFolderPath("child folder 2");
-            CollectionAssert.Contains(allDescriptions, e3.Print());                       
+            Assert.That(allDescriptions.Contains(e3.Print()));
         }
     }
 }

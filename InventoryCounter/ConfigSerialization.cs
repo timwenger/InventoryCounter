@@ -35,24 +35,20 @@ namespace InventoryCounter
 
         private static void SerializeSearchOptions()
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("SearchOptions.bin", FileMode.Create, FileAccess.Write, FileShare.None);
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-            formatter.Serialize(stream, SearchOptions.Instance);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
+            DataContractSerializer serializer = new(type: typeof(SearchOptions));
+            Stream stream = new FileStream("SearchOptions.xml", FileMode.Create, FileAccess.Write, FileShare.None);
+            serializer.WriteObject(stream, SearchOptions.Instance);
             stream.Close();
         }
 
         private static SearchOptions DeSerializeSearchOptions()
         {
-            IFormatter formatter = new BinaryFormatter();
-            SearchOptions startupSearchOptions;
+            DataContractSerializer serializer = new(type: typeof(SearchOptions));
+            SearchOptions startupSearchOptions = LoadDefaultSearchOptions();
             try
             {
                 Stream stream = new FileStream("SearchOptions.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-                startupSearchOptions = (SearchOptions)formatter.Deserialize(stream);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
+                serializer.ReadObject(stream);
                 stream.Close();
             }
             catch (FileNotFoundException)
